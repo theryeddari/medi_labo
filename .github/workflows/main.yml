@@ -2,9 +2,9 @@ name: CI / CD
 
 on:
   push:
-    branches: [ "thery-dev-init-skeleton-multi-module-project-service" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "thery-dev-init-skeleton-multi-module-project-service" ]
+    branches: [ "master" ]
   workflow_dispatch:
 
 jobs:
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: thery-dev-init-skeleton-multi-module-project-service
+          ref: master
 
       # Set up JDK 21
       - name: Set up JDK 21
