@@ -1,4 +1,16 @@
 services:
+
+  maven:
+    image: maven:3.9.9-sapmachine-21
+    container_name: ${MAVEN_CONTAINER_NAME}
+    volumes:
+      - .:/app
+      - maven:/root/.m2/repository  # Volume pour le cache Maven
+    working_dir: /app
+    command: sleep infinity  # Garde le conteneur en marche sans rien faire
+    env_file:
+      - .env
+
   mysql:
     image: mysql:8.0
     container_name: ${MYSQL_CONTAINER_NAME}
@@ -9,6 +21,8 @@ services:
       - "${MYSQL_PORT_EXT}:${MYSQL_PORT_INT}"
     networks:
       - my_medilab
+    env_file:
+      - .env
 
   mongodb:
     image: mongo:6.0
@@ -20,6 +34,8 @@ services:
       - "${MONGODB_PORT_EXT}:${MONGODB_PORT_INT}"
     networks:
       - my_medilab
+    env_file:
+      - .env
 
   angular:
     image: ghcr.io/${GHCR_PATH}/angular:latest
@@ -34,6 +50,8 @@ services:
       - my_medilab
     depends_on:
       - gateway
+    env_file:
+      - .env
 
   follow_note:
     image: ghcr.io/${GHCR_PATH}/follow_note:latest
@@ -48,6 +66,8 @@ services:
       - my_medilab
     depends_on:
       - mongodb
+    env_file:
+      - .env
 
   patient:
     image: ghcr.io/${GHCR_PATH}/patient:latest
@@ -62,6 +82,8 @@ services:
       - my_medilab
     depends_on:
       - mysql
+    env_file:
+      - .env
 
   report:
     image: ghcr.io/${GHCR_PATH}/report:latest
@@ -70,9 +92,6 @@ services:
     volumes:
       - ./backend/report:/app
       - /app
-    environment:
-      ROUTE_FOLLOW_NOTE: http://${FOLLOW_NOTE_CONTAINER_NAME}:${FOLLOW_NOTE_PORT}
-      ROUTE_PATIENT: http://${PATIENT_CONTAINER_NAME}:${PATIENT_PORT}
     ports:
       - "${REPORT_PORT_EXT}:${REPORT_PORT_INT}"
     networks:
@@ -80,6 +99,8 @@ services:
     depends_on:
       - follow_note
       - patient
+    env_file:
+      - .env
 
   gateway:
     image: ghcr.io/${GHCR_PATH}/gateway:latest
@@ -92,19 +113,17 @@ services:
       - "${GATEWAY_PORT_EXT}:${GATEWAY_PORT_INT}"
     networks:
       - my_medilab
-    environment:
-      ROUTE_FOLLOW_NOTE: http://${FOLLOW_NOTE_CONTAINER_NAME}:${FOLLOW_NOTE_PORT_EXT}
-      ROUTE_PATIENT: http://${PATIENT_CONTAINER_NAME}:${PATIENT_PORT_EXT}
-      ROUTE_REPORT: http://${REPORT_CONTAINER_NAME}:${REPORT_PORT_EXT}
-      ROUTE_ANGULAR: http://${ANGULAR_CONTAINER_NAME}:${ANGULAR_PORT_EXT}
     depends_on:
       - follow_note
       - patient
       - report
+    env_file:
+      - .env
 
 volumes:
   mysql_data:
   mongodb_data:
+  maven:
 
 networks:
   my_medilab:

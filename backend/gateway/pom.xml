@@ -32,13 +32,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
-            <version>4.1.4</version>
+            <version>4.1.5</version>
         </dependency>
 
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.1.0</version> <!-- Utilisez la version correspondant à Spring Boot 3.x -->
             <scope>provided</scope>
         </dependency>
 

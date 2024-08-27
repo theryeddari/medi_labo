@@ -89,7 +89,6 @@
                         <!--config exclude class not interesting to test-->
                         <excludes>
                             <exclude>**/dto/**</exclude>
-                            <exclude>**/config/**</exclude>
                             <exclude>**/constant/**</exclude>
                             <exclude>**/entity/**</exclude>
                         </excludes>
