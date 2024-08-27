@@ -1,0 +1,128 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: ${MYSQL_CONTAINER_NAME}
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init_scripts/mysql:/docker-entrypoint-initdb.d
+    ports:
+      - "${MYSQL_PORT_EXT}:${MYSQL_PORT_INT}"
+    networks:
+      - my_medilab
+
+  mongodb:
+    image: mongo:6.0
+    container_name: ${MONGODB_CONTAINER_NAME}
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongodb_data:/data/db
+      - ./init_scripts/mangodb:/docker-entrypoint-initdb.d
+    ports:
+      - "${MONGODB_PORT_EXT}:${MONGODB_PORT_INT}"
+    networks:
+      - my_medilab
+
+  angular:
+    image: ghcr.io/${GHCR_PATH}/angular:latest
+    build: ${BUILD_PATH_ANGULAR}
+    container_name: ${ANGULAR_CONTAINER_NAME}
+    volumes:
+      - ./frontend/angular:/app
+      - /app/node_modules
+    ports:
+      - "${ANGULAR_PORT_EXT}:${ANGULAR_PORT_INT}"
+    networks:
+      - my_medilab
+    depends_on:
+      - gateway
+
+  follow_note:
+    image: ghcr.io/${GHCR_PATH}/follow_note:latest
+    build: ${BUILD_PATH_FOLLOWNOTE}
+    container_name: ${FOLLOW_NOTE_CONTAINER_NAME}
+    environment:
+      DB_URL: ${MONGODB_URL}
+      DB_USERNAME: ${MONGODB_USERNAME}
+      DB_PASSWORD: ${MONGODB_PASSWORD}
+    volumes:
+      - ./backend/follow_note:/app
+      - /app
+    ports:
+      - "${FOLLOW_NOTE_PORT_EXT}:${FOLLOW_NOTE_PORT_INT}"
+    networks:
+      - my_medilab
+    depends_on:
+      - mongodb
+
+  patient:
+    image: ghcr.io/${GHCR_PATH}/patient:latest
+    build: ${BUILD_PATH_PATIENT}
+    container_name: ${PATIENT_CONTAINER_NAME}
+    volumes:
+      - ./backend/patient:/app
+      - /app
+    environment:
+      DB_URL: ${DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${PATIENT_PORT_EXT}:${PATIENT_PORT_INT}"
+    networks:
+      - my_medilab
+    depends_on:
+      - mysql
+
+  report:
+    image: ghcr.io/${GHCR_PATH}/report:latest
+    build: ${BUILD_PATH_REPORT}
+    container_name: ${REPORT_CONTAINER_NAME}
+    volumes:
+      - ./backend/report:/app
+      - /app
+    environment:
+      ROUTE_FOLLOW_NOTE: http://${FOLLOW_NOTE_CONTAINER_NAME}:${FOLLOW_NOTE_PORT}
+      ROUTE_PATIENT: http://${PATIENT_CONTAINER_NAME}:${PATIENT_PORT}
+    ports:
+      - "${REPORT_PORT_EXT}:${REPORT_PORT_INT}"
+    networks:
+      - my_medilab
+    depends_on:
+      - follow_note
+      - patient
+
+  gateway:
+    image: ghcr.io/${GHCR_PATH}/gateway:latest
+    build: ${BUILD_PATH_GATEWAY}
+    container_name: ${GATEWAY_CONTAINER_NAME}
+    volumes:
+      - ./backend/gateway:/app
+      - /app
+    ports:
+      - "${GATEWAY_PORT_EXT}:${GATEWAY_PORT_INT}"
+    networks:
+      - my_medilab
+    environment:
+      ROUTE_FOLLOW_NOTE: http://${FOLLOW_NOTE_CONTAINER_NAME}:${FOLLOW_NOTE_PORT_EXT}
+      ROUTE_PATIENT: http://${PATIENT_CONTAINER_NAME}:${PATIENT_PORT_EXT}
+      ROUTE_REPORT: http://${REPORT_CONTAINER_NAME}:${REPORT_PORT_EXT}
+      ROUTE_ANGULAR: http://${ANGULAR_CONTAINER_NAME}:${ANGULAR_PORT_EXT}
+    depends_on:
+      - follow_note
+      - patient
+      - report
+
+volumes:
+  mysql_data:
+  mongodb_data:
+
+networks:
+  my_medilab:
+    driver: bridge

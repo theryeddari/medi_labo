@@ -10,11 +10,11 @@
     </parent>
 
     <groupId>com.thery</groupId>
-    <artifactId>MediLabo</artifactId>
+    <artifactId>medi_labo</artifactId>
     <version>0.0.1</version>
     <packaging>pom</packaging>
-    <name>MediLabo</name>
-    <description>MediLabo</description>
+    <name>medi_labo</name>
+    <description>medi_labo</description>
     <url/>
     <licenses>
         <license/>
@@ -31,10 +31,10 @@
 
 
     <modules>
-        <module>backend/Gateway</module>
-        <module>backend/FollowNote</module>
-        <module>backend/Patient</module>
-        <module>backend/Report</module>
+        <module>backend/gateway</module>
+        <module>backend/follow_note</module>
+        <module>backend/patient</module>
+        <module>backend/report</module>
     </modules>
 
 
