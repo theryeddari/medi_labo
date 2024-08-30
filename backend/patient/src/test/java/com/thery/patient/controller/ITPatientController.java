@@ -30,7 +30,20 @@ public class ITPatientController {
         mockMvc.perform(get("/clientele")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(reponse ->
-                        Assertions.assertTrue(Objects.requireNonNull(reponse.getResponse().getContentAsString()).contains("TestNone")));
+                .andExpect(response ->
+                        Assertions.assertTrue(Objects.requireNonNull(response.getResponse().getContentAsString()).contains("TestNone")));
+    }
+
+    @Test
+    @WithMockUser(username = "doctor")
+    public void testGetPatient_Success() throws Exception {
+
+        mockMvc.perform(get("/clientele")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("patientId", "1")
+                )
+                .andExpect(status().isOk())
+                .andExpect(response ->
+                        Assertions.assertTrue(Objects.requireNonNull(response.getResponse().getContentAsString()).contains("TestNone")));
     }
 }

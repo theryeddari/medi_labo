@@ -1,8 +1,8 @@
 package com.thery.patient.service;
 
 import com.thery.patient.dto.ClienteleResponse;
+import com.thery.patient.dto.PatientResponse;
 import com.thery.patient.entity.Patient;
-import com.thery.patient.exception.PatientServiceException;
 import com.thery.patient.repository.PatientRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,9 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 
+import static com.thery.patient.exception.PatientServiceException.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -29,7 +31,7 @@ public class TestPatientService {
     private PatientService patientService;
 
     @Test
-    public void testFindClientele_Success() throws PatientServiceException.FindClienteleException {
+    public void testFindClientele_Success() throws FindClienteleException {
         Patient patient = new Patient();
         patient.setId(1);
         patient.setName("Dupont");
@@ -51,6 +53,37 @@ public class TestPatientService {
     @Test
     public void testFindClientele_ThrowsException() {
         when(patientRepository.findAll()).thenThrow(new RuntimeException());
-        assertThrows(PatientServiceException.FindClienteleException.class, () -> patientService.findClientele());
+        assertThrows(FindClienteleException.class, () -> patientService.findClientele());
+    }
+
+    @Test
+    public void testFindPatient_Success() throws FindClienteleException, FindPatientException {
+        Patient patient = new Patient();
+        patient.setId(1);
+        patient.setName("Dupont");
+        patient.setUsername("Alice");
+        patient.setBirthdate(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()));
+        patient.setGender("F");
+
+        when(patientRepository.findById(1)).thenReturn(Optional.of(patient));
+
+        PatientResponse response = patientService.findPatient("1");
+
+        Assertions.assertEquals(patient.getName(), response.getName());
+        Assertions.assertEquals(patient.getBirthdate(), response.getBirthdate());
+        verify(patientRepository, times(1)).findById(1);
+    }
+
+    @Test
+    public void testFindPatient_ThrowsException() {
+        when(patientRepository.findById(1)).thenThrow(new RuntimeException());
+        assertThrows(FindPatientException.class, () -> patientService.findPatient("1"));
+    }
+
+    @Test
+    public void testFindPatient_ThrowsExceptionWithPatientNotFoundException() {
+        when(patientRepository.findById(1)).thenReturn(Optional.empty());
+        Throwable result = assertThrows(FindPatientException.class, () -> patientService.findPatient("1"));
+        Assertions.assertEquals(PatientNotFoundException.class, result.getCause().getClass());
     }
 }

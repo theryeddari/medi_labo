@@ -2,6 +2,8 @@ package com.thery.patient.controller;
 
 import com.thery.patient.dto.ClienteleIdentityDto;
 import com.thery.patient.dto.ClienteleResponse;
+import com.thery.patient.dto.PatientResponse;
+import com.thery.patient.exception.PatientServiceException;
 import com.thery.patient.service.PatientService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.thery.patient.exception.PatientServiceException.FindClienteleException;
@@ -36,5 +39,19 @@ public class TestPatientController {
 
         verify(patientService).findClientele();
         assertEquals(clienteleResponse, result);
+    }
+
+    @Test
+    void getPatient_success() throws FindClienteleException, PatientServiceException.FindPatientException {
+
+        PatientResponse patientResponse = new PatientResponse("Dupont", "Alice", LocalDateTime.now(), "F", "", "");
+
+        when(patientService.findPatient("1")).thenReturn(patientResponse);
+
+
+        PatientResponse result = patientController.getPatient("1");
+
+        verify(patientService).findPatient("1");
+        assertEquals(patientResponse, result);
     }
 }

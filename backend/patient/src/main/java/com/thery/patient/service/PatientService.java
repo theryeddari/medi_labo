@@ -2,6 +2,7 @@ package com.thery.patient.service;
 
 import com.thery.patient.dto.ClienteleIdentityDto;
 import com.thery.patient.dto.ClienteleResponse;
+import com.thery.patient.dto.PatientResponse;
 import com.thery.patient.entity.Patient;
 import com.thery.patient.repository.PatientRepository;
 import jakarta.transaction.Transactional;
@@ -11,8 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static com.thery.patient.exception.PatientServiceException.FindClienteleException;
+import static com.thery.patient.exception.PatientServiceException.*;
 
 /**
  * Service class for handling patient operations.
@@ -41,6 +43,24 @@ public class PatientService {
             return new ClienteleResponse(clienteleIdentityDto);
         } catch (Exception e) {
             throw new FindClienteleException(e);
+        }
+    }
+
+    public PatientResponse findPatient(String patientId) throws FindPatientException {
+        try {
+            Optional<Patient> patient = patientRepository.findById(Integer.parseInt(patientId));
+            if (patient.isPresent()) {
+                return new PatientResponse(patient.get().getName(),
+                        patient.get().getUsername(),
+                        patient.get().getBirthdate(),
+                        patient.get().getGender(),
+                        patient.get().getAdresse(),
+                        patient.get().getPhone());
+            } else {
+                throw new PatientNotFoundException();
+            }
+        } catch (Exception e) {
+            throw new FindPatientException(e);
         }
     }
 }
