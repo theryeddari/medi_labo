@@ -13,7 +13,7 @@ import java.util.Base64;
 
 @SpringBootTest
 @AutoConfigureWebTestClient
-public class SecurityIntegrationTest {
+public class ITSecurityConfig {
 
     @Autowired
     private WebTestClient webTestClient;
