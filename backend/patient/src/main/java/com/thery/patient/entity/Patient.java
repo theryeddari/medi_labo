@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 /**
  * Represents a patient entity in the system.
@@ -26,7 +26,7 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     @Column(name = "patientId", nullable = false)
-    private Integer id;
+    private int id;
 
     /**
      * The name of the patient.
@@ -52,7 +52,7 @@ public class Patient {
      */
     @NotNull
     @Column(name = "birthdate", nullable = false)
-    private Instant birthdate;
+    private LocalDateTime birthdate;
 
     /**
      * The gender of the patient.
