@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: gateway-service
+
+  cloud:
+    gateway:
+      routes:
+        # Wrong routes
+        - id: fallback-route
+          predicates:
+            - Path=/**
+          uri: forward:/fallback
+          # redirect on controller's gateway fallback to return responseStatus BAD_GATEWAY
+
+
+        # Patient routes
+        - id: patient-list
+          predicates:
+            - Path=/api/clientele
+          uri: ${ROUTE_PATIENT}/clientele
+          # Incoming URL: http://<gateway-host>:8080/api/clientele
+          # Outgoing URL: ${ROUTE_PATIENT}/clientele
+
+        - id: patient-details
+          predicates:
+            - Path=/api/clientele/patient/{patientId}
+          uri: ${ROUTE_PATIENT}/patient/{patientId}
+          # Incoming URL: http://<gateway-host>:8080/api/clientele/patient/{patientId}
+          # Outgoing URL: ${ROUTE_PATIENT}/patient/{patientId}
+
+        - id: patient-update
+          predicates:
+            - Path=/api/clientele/patient
+          uri: ${ROUTE_PATIENT}/patient
+          # Incoming URL: http://<gateway-host>:8080/api/clientele/patient
+          # Outgoing URL: ${ROUTE_PATIENT}/patient
+
+        # FollowNote routes
+        - id: follow-note-list
+          predicates:
+            - Path=/api/clientele/patient/notes/{patientId}
+          uri: ${ROUTE_FOLLOW_NOTE}/notes/{patientId}
+          # Incoming URL: http://<gateway-host>:8080/api/clientele/patient/notes/{patientId}
+          # Outgoing URL: ${ROUTE_FOLLOW_NOTE}/follow-note/{patientId}
+
+        - id: follow-note-add
+          predicates:
+            - Path=/api/clientele/patient/notes/note
+          uri: ${ROUTE_FOLLOW_NOTE}/note
+          # Incoming URL: http://<gateway-host>:8080/api/clientele/patient/notes/note
+          # Outgoing URL: ${ROUTE_FOLLOW_NOTE}/note
+
+        # Report routes
+        - id: report-risk
+          predicates:
+            - Path=/api/clientele/patient/notes/report/{patientId}
+          uri: ${ROUTE_REPORT}/report/{patientId}
+          # Incoming URL: http://<gateway-host>:8080/api/clientele/patient/notes/report/{patientId}
+          # Outgoing URL: ${ROUTE_REPORT}/report/{patientId}
+
