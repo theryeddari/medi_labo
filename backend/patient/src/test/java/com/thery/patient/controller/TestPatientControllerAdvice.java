@@ -37,4 +37,13 @@ public class TestPatientControllerAdvice {
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
+
+    @Test
+    public void testHandleSavePatientException() {
+        SavePatientException ex = new SavePatientException(new RuntimeException());
+
+        ResponseEntity<String> response = advice.handleSavePatientException(ex);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
 }

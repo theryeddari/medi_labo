@@ -1,6 +1,7 @@
 package com.thery.patient.service;
 
 import com.thery.patient.dto.ClienteleResponse;
+import com.thery.patient.dto.PatientRequest;
 import com.thery.patient.dto.PatientResponse;
 import com.thery.patient.entity.Patient;
 import com.thery.patient.repository.PatientRepository;
@@ -57,7 +58,7 @@ public class TestPatientService {
     }
 
     @Test
-    public void testFindPatient_Success() throws FindClienteleException, FindPatientException {
+    public void testFindPatient_Success() throws FindPatientException {
         Patient patient = new Patient();
         patient.setId(1);
         patient.setName("Dupont");
@@ -86,4 +87,37 @@ public class TestPatientService {
         Throwable result = assertThrows(FindPatientException.class, () -> patientService.findPatient("1"));
         Assertions.assertEquals(PatientNotFoundException.class, result.getCause().getClass());
     }
+
+    @Test
+    public void testUpdatePatient_Success() throws SavePatientException {
+        LocalDateTime birthdate = LocalDateTime.now();
+        PatientRequest patientRequest = new PatientRequest(1, "dupont", "alice", birthdate, "F", "", "");
+
+        Patient patient = new Patient();
+        patient.setId(1);
+        patient.setName("dupont");
+        patient.setUsername("alice");
+        patient.setBirthdate(birthdate);
+        patient.setGender("F");
+        patient.setAdresse("");
+        patient.setPhone("");
+
+        when(patientRepository.save(any(Patient.class))).thenReturn(patient);
+
+        PatientResponse response = patientService.savePatient(patientRequest);
+
+        Assertions.assertEquals(patient.getName(), response.getName());
+        Assertions.assertEquals(patient.getBirthdate(), response.getBirthdate());
+        verify(patientRepository, times(1)).save(any(Patient.class));
+    }
+
+    @Test
+    public void testSavePatient_ThrowsException() {
+        PatientRequest patientRequest = new PatientRequest(1, "dupont", "alice", LocalDateTime.now(), "F", "", "");
+
+
+        when(patientRepository.save(any(Patient.class))).thenThrow(new RuntimeException());
+        assertThrows(SavePatientException.class, () -> patientService.savePatient(patientRequest));
+    }
+
 }

@@ -1,5 +1,10 @@
 package com.thery.patient.config;
 
+/**
+ * Security configuration for the application.
+ * This class sets up user details and the security filter chain.
+ */
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -14,11 +19,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    /**
+     * Creates an in-memory user details service with a predefined user.
+     *
+     * @return UserDetailsService containing the user 'doctor' with password 'password'
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -28,7 +37,14 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(user);
     }
 
-    @Bean(name = "clientSecurity")
+    /**
+     * Configures the security filter chain for HTTP requests.
+     *
+     * @param http HttpSecurity to configure
+     * @return SecurityFilterChain configured with authentication settings
+     * @throws Exception if configuration fails
+     */
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())

@@ -43,4 +43,16 @@ public class PatientControllerAdvice {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Handles SavePatientException and logs the error message.
+     *
+     * @param ex The exception object.
+     * @return ResponseEntity with an error message and HTTP status code INTERNAL_SERVER_ERROR.
+     */
+    @ExceptionHandler(SavePatientException.class)
+    public ResponseEntity<String> handleSavePatientException(SavePatientException ex) {
+        logger.error("{}", ex.getMessage());
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

@@ -2,6 +2,7 @@ package com.thery.patient.controller;
 
 import com.thery.patient.dto.ClienteleIdentityDto;
 import com.thery.patient.dto.ClienteleResponse;
+import com.thery.patient.dto.PatientRequest;
 import com.thery.patient.dto.PatientResponse;
 import com.thery.patient.exception.PatientServiceException;
 import com.thery.patient.service.PatientService;
@@ -42,7 +43,7 @@ public class TestPatientController {
     }
 
     @Test
-    void getPatient_success() throws FindClienteleException, PatientServiceException.FindPatientException {
+    void getPatient_success() throws PatientServiceException.FindPatientException {
 
         PatientResponse patientResponse = new PatientResponse("Dupont", "Alice", LocalDateTime.now(), "F", "", "");
 
@@ -52,6 +53,22 @@ public class TestPatientController {
         PatientResponse result = patientController.getPatient("1");
 
         verify(patientService).findPatient("1");
+        assertEquals(patientResponse, result);
+    }
+
+    @Test
+    void updatePatient_success() throws PatientServiceException.SavePatientException {
+
+        PatientResponse patientResponse = new PatientResponse("Dupont", "Alice", LocalDateTime.now(), "F", "", "");
+        PatientRequest patientRequest = new PatientRequest(1, "Dupont", "Alice", LocalDateTime.now(), "F", "", "");
+
+
+        when(patientService.savePatient(patientRequest)).thenReturn(patientResponse);
+
+
+        PatientResponse result = patientController.updatePatient(patientRequest);
+
+        verify(patientService).savePatient(patientRequest);
         assertEquals(patientResponse, result);
     }
 }
