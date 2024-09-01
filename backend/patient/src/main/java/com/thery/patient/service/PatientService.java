@@ -18,7 +18,7 @@ import java.util.Optional;
 import static com.thery.patient.exception.PatientServiceException.*;
 
 /**
- * Service class for handling patient operations.
+ * service class for handling patient operations.
  */
 @Service
 @Transactional

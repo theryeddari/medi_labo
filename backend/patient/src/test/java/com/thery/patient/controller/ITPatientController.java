@@ -21,7 +21,6 @@ import java.util.Objects;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -41,7 +40,6 @@ public class ITPatientController {
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("doctor:password".getBytes())))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(status().isOk())
                 .andExpect(response ->
                         Assertions.assertTrue(Objects.requireNonNull(response.getResponse().getContentAsString()).contains("TestNone")));
     }
@@ -54,7 +52,6 @@ public class ITPatientController {
                         .param("patientId", "1")
                         .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("doctor:password".getBytes())))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(status().isOk())
                 .andExpect(response ->
                         Assertions.assertTrue(Objects.requireNonNull(response.getResponse().getContentAsString()).contains("TestNone")));
     }
@@ -70,7 +67,6 @@ public class ITPatientController {
                         .content(objectMapper.writeValueAsString(patientRequest))
                         .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("doctor:password".getBytes())))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();

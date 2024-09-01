@@ -1,4 +1,4 @@
-package com.thery.patient.config;
+package com.thery.note.config;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +19,16 @@ public class ITSecurityConfig {
     private MockMvc mockMvc;
 
 
-    //WithMockUser password by default its password
     @Test
-    public void testAuthenticationAuthorized() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/clientele")
+    public void testAuthenticationWithHttpBasic() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/notes/1")
                         .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("doctor:password".getBytes())))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
     public void testAuthenticationUnauthorized() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/clientele")
+        mockMvc.perform(MockMvcRequestBuilders.get("/note/1")
                         .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("user:password".getBytes())))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }

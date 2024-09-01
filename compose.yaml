@@ -11,8 +11,6 @@ services:
     env_file:
       - .env
     ports: [ 1200:1200 ]
-    networks:
-      - medilab
 
   mysql:
     image: mysql:8.0
@@ -22,8 +20,6 @@ services:
       - ./init_scripts/mysql:/docker-entrypoint-initdb.d
     ports:
       - "${MYSQL_PORT_EXT}:${MYSQL_PORT_INT}"
-    networks:
-      - medilab
     env_file:
       - .env
 
@@ -35,8 +31,6 @@ services:
       - ./init_scripts/mangodb:/docker-entrypoint-initdb.d
     ports:
       - "${MONGODB_PORT_EXT}:${MONGODB_PORT_INT}"
-    networks:
-      - medilab
     env_file:
       - .env
 
@@ -49,24 +43,20 @@ services:
       - /app/node_modules
     ports:
       - "${ANGULAR_PORT_EXT}:${ANGULAR_PORT_INT}"
-    networks:
-      - medilab
     depends_on:
       - gateway
     env_file:
       - .env
 
-  follow_note:
-    image: ghcr.io/${GHCR_PATH}/follow_note:latest
-    build: ${BUILD_PATH_FOLLOWNOTE}
-    container_name: ${FOLLOW_NOTE_CONTAINER_NAME}
+  note:
+    image: ghcr.io/${GHCR_PATH}/note:latest
+    build: ${BUILD_PATH_NOTE}
+    container_name: ${NOTE_CONTAINER_NAME}
     volumes:
-      - ./backend/follow_note:/app
+      - ./backend/note:/app
       - /app
     ports:
-      - "${FOLLOW_NOTE_PORT_EXT}:${FOLLOW_NOTE_PORT_INT}"
-    networks:
-      - medilab
+      - "${NOTE_PORT_EXT}:${NOTE_PORT_INT}"
     depends_on:
       - mongodb
     env_file:
@@ -81,8 +71,6 @@ services:
       - /app
     ports:
       - "${PATIENT_PORT_EXT}:${PATIENT_PORT_INT}"
-    networks:
-      - medilab
     depends_on:
       - mysql
     env_file:
@@ -97,10 +85,8 @@ services:
       - /app
     ports:
       - "${REPORT_PORT_EXT}:${REPORT_PORT_INT}"
-    networks:
-      - medilab
     depends_on:
-      - follow_note
+      - note
       - patient
     env_file:
       - .env
@@ -114,10 +100,8 @@ services:
       - /app
     ports:
       - "${GATEWAY_PORT_EXT}:${GATEWAY_PORT_INT}"
-    networks:
-      - medilab
     depends_on:
-      - follow_note
+      - note
       - patient
       - report
     env_file:
@@ -127,6 +111,3 @@ volumes:
   mysql_data:
   mongodb_data:
   maven:
-
-networks:
-  medilab:

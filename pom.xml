@@ -32,7 +32,7 @@
 
     <modules>
         <module>backend/gateway</module>
-        <module>backend/follow_note</module>
+        <module>backend/note</module>
         <module>backend/patient</module>
         <module>backend/report</module>
     </modules>

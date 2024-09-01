@@ -4,13 +4,16 @@ spring:
 
   cloud:
     gateway:
+      httpclient:
+        connect-timeout: 10000  # Timeout de connexion en millisecondes
+        response-timeout: 50000 # Timeout de réponse en millisecondes
       routes:
         # Wrong routes
-        - id: fallback-route
-          predicates:
-            - Path=/**
-          uri: forward:/fallback
-          # redirect on controller's gateway fallback to return responseStatus BAD_GATEWAY
+        #        - id: fallback-route
+        #          predicates:
+        #            - Path=/**
+        #          uri: forward:/fallback
+        #          # redirect on controller's gateway fallback to return responseStatus BAD_GATEWAY
 
 
         # Patient routes
@@ -39,16 +42,16 @@ spring:
         - id: follow-note-list
           predicates:
             - Path=/api/clientele/patient/notes/{patientId}
-          uri: ${ROUTE_FOLLOW_NOTE}/notes/{patientId}
+          uri: ${ROUTE_NOTE}/notes/{patientId}
           # Incoming URL: http://<gateway-host>:8080/api/clientele/patient/notes/{patientId}
-          # Outgoing URL: ${ROUTE_FOLLOW_NOTE}/follow-note/{patientId}
+          # Outgoing URL: ${ROUTE_NOTE}/follow-note/{patientId}
 
         - id: follow-note-add
           predicates:
             - Path=/api/clientele/patient/notes/note
-          uri: ${ROUTE_FOLLOW_NOTE}/note
+          uri: ${ROUTE_NOTE}/note
           # Incoming URL: http://<gateway-host>:8080/api/clientele/patient/notes/note
-          # Outgoing URL: ${ROUTE_FOLLOW_NOTE}/note
+          # Outgoing URL: ${ROUTE_NOTE}/note
 
         # Report routes
         - id: report-risk
