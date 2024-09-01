@@ -2,11 +2,6 @@ services:
   mysql:
     image: mysql:8.0
     container_name: ${MYSQL_CONTAINER_NAME}
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
       - ./init_scripts/mysql:/docker-entrypoint-initdb.d
@@ -18,10 +13,6 @@ services:
   mongodb:
     image: mongo:6.0
     container_name: ${MONGODB_CONTAINER_NAME}
-    environment:
-      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongodb_data:/data/db
       - ./init_scripts/mangodb:/docker-entrypoint-initdb.d
@@ -48,10 +39,6 @@ services:
     image: ghcr.io/${GHCR_PATH}/follow_note:latest
     build: ${BUILD_PATH_FOLLOWNOTE}
     container_name: ${FOLLOW_NOTE_CONTAINER_NAME}
-    environment:
-      DB_URL: ${MONGODB_URL}
-      DB_USERNAME: ${MONGODB_USERNAME}
-      DB_PASSWORD: ${MONGODB_PASSWORD}
     volumes:
       - ./backend/follow_note:/app
       - /app
@@ -69,10 +56,6 @@ services:
     volumes:
       - ./backend/patient:/app
       - /app
-    environment:
-      DB_URL: ${DB_URL}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
     ports:
       - "${PATIENT_PORT_EXT}:${PATIENT_PORT_INT}"
     networks:
