@@ -1,63 +1,76 @@
+server:
+  port: 8080  # Port sur lequel le serveur écoute
+logging:
+  level:
+    root: trace
+
 spring:
   application:
-    name: gateway-service
+    name: gateway  # Nom de l'application
 
   cloud:
     gateway:
-      httpclient:
-        connect-timeout: 10000  # Timeout de connexion en millisecondes
-        response-timeout: 50000 # Timeout de réponse en millisecondes
       routes:
-        # Wrong routes
-        #        - id: fallback-route
-        #          predicates:
-        #            - Path=/**
-        #          uri: forward:/fallback
-        #          # redirect on controller's gateway fallback to return responseStatus BAD_GATEWAY
-
-
         # Patient routes
         - id: patient-list
+          uri: ${ROUTE_PATIENT}
           predicates:
             - Path=/api/clientele
-          uri: ${ROUTE_PATIENT}/clientele
-          # Incoming URL: http://<gateway-host>:8080/api/clientele
-          # Outgoing URL: ${ROUTE_PATIENT}/clientele
+          filters:
+            - RewritePath=/api/clientele, /clientele
+            # Incoming URL: http://<gateway-host>:8080/api/clientele
+            # Outgoing URL: ${ROUTE_PATIENT}/clientele
 
         - id: patient-details
           predicates:
-            - Path=/api/clientele/patient/{patientId}
-          uri: ${ROUTE_PATIENT}/patient/{patientId}
+            - Path=/api/clientele/patient/{patientId:\d+}
+          uri: ${ROUTE_PATIENT}
+          filters:
+            - RewritePath=/api/clientele/patient/(?<patientId>.*), /patient/${patientId}
           # Incoming URL: http://<gateway-host>:8080/api/clientele/patient/{patientId}
           # Outgoing URL: ${ROUTE_PATIENT}/patient/{patientId}
 
         - id: patient-update
           predicates:
             - Path=/api/clientele/patient
-          uri: ${ROUTE_PATIENT}/patient
+          uri: ${ROUTE_PATIENT}
+          filters:
+            - RewritePath=/api/clientele/patient, /patient
           # Incoming URL: http://<gateway-host>:8080/api/clientele/patient
           # Outgoing URL: ${ROUTE_PATIENT}/patient
 
         # FollowNote routes
-        - id: follow-note-list
+        - id: notes-list
           predicates:
-            - Path=/api/clientele/patient/notes/{patientId}
-          uri: ${ROUTE_NOTE}/notes/{patientId}
+            - Path=/api/clientele/patient/notes/{patientId:\d+}
+          uri: ${ROUTE_NOTE}
+          filters:
+            - RewritePath=/api/clientele/patient/notes/(?<patientId>.*), /notes/${patientId}
           # Incoming URL: http://<gateway-host>:8080/api/clientele/patient/notes/{patientId}
-          # Outgoing URL: ${ROUTE_NOTE}/follow-note/{patientId}
+          # Outgoing URL: ${ROUTE_NOTE}/notes/{patientId}
 
-        - id: follow-note-add
+        - id: note-add
           predicates:
             - Path=/api/clientele/patient/notes/note
-          uri: ${ROUTE_NOTE}/note
+          uri: ${ROUTE_NOTE}
+          filters:
+            - RewritePath=/api/clientele/patient/notes/note, /note
           # Incoming URL: http://<gateway-host>:8080/api/clientele/patient/notes/note
           # Outgoing URL: ${ROUTE_NOTE}/note
 
         # Report routes
         - id: report-risk
           predicates:
-            - Path=/api/clientele/patient/notes/report/{patientId}
-          uri: ${ROUTE_REPORT}/report/{patientId}
+            - Path=/api/clientele/patient/notes/report/{patientId:\d+}
+          uri: ${ROUTE_REPORT}
+          filters:
+            - RewritePath=/api/clientele/patient/notes/report/(?<patientId>.*), /report/${patientId}
           # Incoming URL: http://<gateway-host>:8080/api/clientele/patient/notes/report/{patientId}
           # Outgoing URL: ${ROUTE_REPORT}/report/{patientId}
 
+        # Wrong routes
+        - id: fallback-route
+          predicates:
+            - Path=/**
+          uri: forward:/fallback
+          # redirect on controller's gateway fallback to return responseStatus BAD_GATEWAY

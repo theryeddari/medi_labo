@@ -5,6 +5,7 @@ package com.thery.patient.config;
  * This class sets up user details and the security filter chain.
  */
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -23,6 +24,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Value("${MEDILABO_USER}")
+    private String medilaboUser;
+
+    @Value("${MEDILABO_PASSWORD}")
+    private String medilaboPassword;
+
     /**
      * Creates an in-memory user details service with a predefined user.
      *
@@ -31,8 +38,8 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        UserDetails user = User.withUsername("doctor")
-                .password(passwordEncoder.encode("password"))
+        UserDetails user = User.withUsername(medilaboUser)
+                .password(passwordEncoder.encode(medilaboPassword))
                 .build();
         return new InMemoryUserDetailsManager(user);
     }

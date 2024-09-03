@@ -10,7 +10,8 @@ services:
     command: sleep infinity  # Garde le conteneur en marche sans rien faire
     env_file:
       - .env
-    ports: [ 1200:1200 ]
+    ports:
+      - "${MAVEN_PORT_EXT}:${MAVEN_PORT_INT}"
 
   mysql:
     image: mysql:8.0

@@ -1,5 +1,6 @@
 package com.thery.gateway.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -18,6 +19,12 @@ import java.util.List;
 @Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
+
+    @Value("${MEDILABO_USER}")
+    private String medilaboUser;
+
+    @Value("${MEDILABO_PASSWORD}")
+    private String medilaboPassword;
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
@@ -44,8 +51,8 @@ public class SecurityConfig {
     @Bean
     public MapReactiveUserDetailsService userDetailsService() {
         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        UserDetails user = User.withUsername("doctor")
-                .password(passwordEncoder.encode("password"))
+        UserDetails user = User.withUsername(medilaboUser)
+                .password(passwordEncoder.encode(medilaboPassword))
                 .build();
         return new MapReactiveUserDetailsService(user);
     }

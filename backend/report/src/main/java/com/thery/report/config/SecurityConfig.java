@@ -1,4 +1,9 @@
-package com.thery.note.config;
+package com.thery.report.config;
+
+/**
+ * Security configuration for the application.
+ * This class sets up user details and the security filter chain.
+ */
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,10 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-/**
- * Security configuration for the application.
- * This class sets up user details and the security filter chain.
- */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -28,6 +29,7 @@ public class SecurityConfig {
 
     @Value("${MEDILABO_PASSWORD}")
     private String medilaboPassword;
+
 
     /**
      * Creates an in-memory user details service with a predefined user.

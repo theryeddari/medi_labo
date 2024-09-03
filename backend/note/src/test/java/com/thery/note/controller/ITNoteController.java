@@ -57,7 +57,7 @@ public class ITNoteController {
     }
 
     @Test
-    public void testUpdateFollowNote_Success() throws Exception {
+    public void testAddNote_Success() throws Exception {
 
         NoteRequest noteRequest = new NoteRequest("12345", LocalDateTime.now(), "Some note");
 

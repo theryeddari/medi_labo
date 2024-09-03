@@ -1,4 +1,4 @@
-package com.thery.patient.dto;
+package com.thery.report.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,16 +32,15 @@ public class PatientResponse {
      */
     String gender;
 
+    /**
+     * The address of the patient.
+     */
+    String address;
 
     /**
      * The phone number of the patient.
      */
     String phone;
-
-    /**
-     * The address of the patient.
-     */
-    String address;
 
     /**
      * Default constructor for PatientResponse.

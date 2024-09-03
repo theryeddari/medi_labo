@@ -2,6 +2,7 @@ package com.thery.patient.config;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,19 +19,26 @@ public class ITSecurityConfig {
     @Autowired
     private MockMvc mockMvc;
 
+    @Value("${MEDILABO_USER}")
+    private String medilaboUser;
+
+    @Value("${MEDILABO_PASSWORD}")
+    private String medilaboPassword;
+
+    String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
 
     //WithMockUser password by default its password
     @Test
     public void testAuthenticationAuthorized() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/clientele")
-                        .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("doctor:password".getBytes())))
+                        .header("Authorization", "Basic " + authHeader))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
     public void testAuthenticationUnauthorized() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/clientele")
-                        .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("user:password".getBytes())))
+                        .header("Authorization", "Basic " + authHeader))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
 }

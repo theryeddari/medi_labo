@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -33,12 +34,20 @@ public class ITPatientController {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Value("${MEDILABO_USER}")
+    private String medilaboUser;
+
+    @Value("${MEDILABO_PASSWORD}")
+    private String medilaboPassword;
+
+    String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
+
     @Test
     public void testGetClientele_Success() throws Exception {
 
         mockMvc.perform(get("/clientele")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("doctor:password".getBytes())))
+                        .header("Authorization", "Basic " + authHeader))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(response ->
                         Assertions.assertTrue(Objects.requireNonNull(response.getResponse().getContentAsString()).contains("TestNone")));
@@ -50,7 +59,7 @@ public class ITPatientController {
         mockMvc.perform(get("/clientele")
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("patientId", "1")
-                        .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("doctor:password".getBytes())))
+                        .header("Authorization", "Basic " + authHeader))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(response ->
                         Assertions.assertTrue(Objects.requireNonNull(response.getResponse().getContentAsString()).contains("TestNone")));
@@ -65,7 +74,7 @@ public class ITPatientController {
         String jsonResponse = mockMvc.perform(post("/patient")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(patientRequest))
-                        .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("doctor:password".getBytes())))
+                        .header("Authorization", "Basic " + authHeader))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .getResponse()

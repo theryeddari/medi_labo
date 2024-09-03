@@ -38,7 +38,7 @@ public class NoteController {
     @ResponseStatus(HttpStatus.OK)
     public NotesResponse getNotes(@PathVariable String patientId) throws FindNoteException {
         logger.info("Fetching notes profiles");
-        NotesResponse notesResponse = notesService.findFollowNote(patientId);
+        NotesResponse notesResponse = notesService.findNotes(patientId);
         logger.info("Patient notes fetched successfully");
         return notesResponse;
     }
@@ -52,9 +52,9 @@ public class NoteController {
      */
     @PostMapping("/note")
     @ResponseStatus(HttpStatus.OK)
-    public NoteResponse updateFollowNote(@RequestBody NoteRequest noteRequest) throws SaveNoteException {
+    public NoteResponse addNote(@RequestBody NoteRequest noteRequest) throws SaveNoteException {
         logger.info("save note profiles");
-        NoteResponse note = notesService.saveFollowNote(noteRequest);
+        NoteResponse note = notesService.saveNote(noteRequest);
         logger.info(" Patient note saved successfully");
         return note;
     }

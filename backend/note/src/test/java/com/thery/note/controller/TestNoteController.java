@@ -31,23 +31,23 @@ public class TestNoteController {
     void getNotes_success() throws NoteServiceException {
         NotesResponse notesResponse = new NotesResponse(List.of(new NoteResponse(LocalDateTime.now(), "surpoids")));
 
-        when(followNoteService.findFollowNote("1")).thenReturn(notesResponse);
+        when(followNoteService.findNotes("1")).thenReturn(notesResponse);
 
         NotesResponse result = noteController.getNotes("1");
 
-        verify(followNoteService).findFollowNote("1");
+        verify(followNoteService).findNotes("1");
         assertEquals(notesResponse, result);
     }
 
     @Test
-    void updateFollowNote_success() throws NoteServiceException.SaveNoteException {
+    void addNote_success() throws NoteServiceException.SaveNoteException {
         NoteRequest noteRequest = new NoteRequest("1", LocalDateTime.now(), "Some note");
         NoteResponse noteResponse = new NoteResponse(LocalDateTime.now(), "Some note");
-        when(followNoteService.saveFollowNote(noteRequest)).thenReturn(noteResponse);
+        when(followNoteService.saveNote(noteRequest)).thenReturn(noteResponse);
 
-        NoteResponse result = noteController.updateFollowNote(noteRequest);
+        NoteResponse result = noteController.addNote(noteRequest);
 
-        verify(followNoteService).saveFollowNote(noteRequest);
+        verify(followNoteService).saveNote(noteRequest);
         assertEquals(noteResponse, result);
     }
 }

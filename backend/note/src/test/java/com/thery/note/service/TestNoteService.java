@@ -41,7 +41,7 @@ public class TestNoteService {
 
         when(noteRepository.findFollowNoteByPatientId(patientId)).thenReturn(notes);
 
-        NotesResponse response = followNoteService.findFollowNote(patientId);
+        NotesResponse response = followNoteService.findNotes(patientId);
 
         Assertions.assertEquals(1, response.getNoteResponseList().size());
         Assertions.assertEquals(note.getNote(), response.getNoteResponseList().getFirst().getNote());
@@ -54,7 +54,7 @@ public class TestNoteService {
 
         when(noteRepository.findFollowNoteByPatientId(patientId)).thenThrow(new RuntimeException());
 
-        assertThrows(NoteServiceException.FindNoteException.class, () -> followNoteService.findFollowNote(patientId));
+        assertThrows(NoteServiceException.FindNoteException.class, () -> followNoteService.findNotes(patientId));
     }
 
     @Test
@@ -70,7 +70,7 @@ public class TestNoteService {
 
         when(noteRepository.save(any(Note.class))).thenReturn(note);
 
-        NoteResponse response = followNoteService.saveFollowNote(noteRequest);
+        NoteResponse response = followNoteService.saveNote(noteRequest);
 
         Assertions.assertEquals(note.getNote(), response.getNote());
         Assertions.assertEquals(note.getDate(), response.getDate());
@@ -85,6 +85,6 @@ public class TestNoteService {
 
         when(noteRepository.save(any(Note.class))).thenThrow(new RuntimeException());
 
-        assertThrows(SaveNoteException.class, () -> followNoteService.saveFollowNote(noteRequest));
+        assertThrows(SaveNoteException.class, () -> followNoteService.saveNote(noteRequest));
     }
 }

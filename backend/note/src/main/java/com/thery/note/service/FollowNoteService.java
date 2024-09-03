@@ -42,7 +42,7 @@ public class FollowNoteService {
      * @return the response containing followNote details
      * @throws FindNoteException if an error occurs while finding the followNote
      */
-    public NotesResponse findFollowNote(String patientId) throws FindNoteException {
+    public NotesResponse findNotes(String patientId) throws FindNoteException {
         try {
             List<NoteResponse> noteResponseList = new ArrayList<>();
             List<Note> followNote = noteRepository.findFollowNoteByPatientId(patientId);
@@ -62,7 +62,7 @@ public class FollowNoteService {
      * @return the response containing saved followNote details
      * @throws SaveNoteException if an error occurs while saving the followNote
      */
-    public NoteResponse saveFollowNote(NoteRequest noteRequest) throws SaveNoteException {
+    public NoteResponse saveNote(NoteRequest noteRequest) throws SaveNoteException {
         try {
             logger.info("Saving new note: {}", noteRequest.getPatientId());
             Note note = new Note();

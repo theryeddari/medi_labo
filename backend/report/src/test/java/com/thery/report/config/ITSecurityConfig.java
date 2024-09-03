@@ -1,4 +1,4 @@
-package com.thery.note.config;
+package com.thery.report.config;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,21 +24,19 @@ public class ITSecurityConfig {
 
     String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
 
-
     @Autowired
     private MockMvc mockMvc;
 
-
     @Test
-    public void testAuthenticationWithHttpBasic() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/notes/1")
+    public void testAuthenticationAuthorized() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/report/1")
                         .header("Authorization", "Basic " + authHeader))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
     public void testAuthenticationUnauthorized() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/note/1")
+        mockMvc.perform(MockMvcRequestBuilders.get("/report/")
                         .header("Authorization", "Basic " + authHeader))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
