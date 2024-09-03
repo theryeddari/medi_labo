@@ -98,7 +98,7 @@ Processus : Compilation, exécution des tests, vérification des performances ,g
       /com/openclassrooms/tourguide
 ```
 ## Green Code
-Le Green Code est une approche de développement visant à réduire l'empreinte écologique des applications en optimisant les ressources et en minimisant l'impact environnemental tout au long de leur cycle de vie. Dans ce projet, nous avons mis en place diverses actions pour rendre notre code plus écoresponsable, notamment l'optimisation des requêtes, l'efficacité du code, la gestion des ressources serveurs, et l'utilisation d'une infrastructure cloud durable.
+Le Green Code est une approche de développement visant à réduire l'empreinte écologique des applications en optimisant les ressources et en minimisant l'impact environnemental tout au long de leur cycle de vie. Dans ce projet, nous pouvons mettre en place diverses actions pour rendre notre code plus écoresponsable, notamment l'optimisation des requêtes, l'efficacité du code, la gestion des ressources serveurs, et l'utilisation d'une infrastructure cloud durable.
 
 Pour plus de détails sur les actions spécifiques et les concepts abordés, veuillez consulter la section dédiée dans notre Documentation.
 ## License
