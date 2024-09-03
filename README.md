@@ -11,9 +11,11 @@ Vous trouverez ici le document [Document de présentation MedicalLabo](https://g
 - **Java** : 21
 - **Spring Boot** : 3.2.2
 - **JUnit** : 5
+- **Docker**
 - **Log4j2**
 - **Jacoco** : pour la couverture de code
 - **Surefire** : pour les rapports de tests
+- **les modules ou bien le ComposeDocker pour Deployement automatique**
 
 ## Installation
 
@@ -21,7 +23,7 @@ La branch Main est utilisé comme branch de présentation par défaut.
 
 Pour toute utilisation du code, ajout ou modification veuillez creer une nouvelle branch à partir de la branch Master qui est diponible dans le projet aprés avoir cloner le repro.
 
-[Branch Master](https://github.com/theryeddari/P8-TourGuide/tree/8b0c295b35227ea6c349c2568c96b538c3524746/TourGuide) 
+[Branch Master]() 
 
 Clonez le dépôt de la branch Master:
 
