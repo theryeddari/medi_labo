@@ -54,8 +54,7 @@ services:
     build: ${BUILD_PATH_NOTE}
     container_name: ${NOTE_CONTAINER_NAME}
     volumes:
-      - ./backend/note:/app
-      - /app
+      - ./backend/note/target:/app
     ports:
       - "${NOTE_PORT_EXT}:${NOTE_PORT_INT}"
     depends_on:
@@ -68,8 +67,7 @@ services:
     build: ${BUILD_PATH_PATIENT}
     container_name: ${PATIENT_CONTAINER_NAME}
     volumes:
-      - ./backend/patient:/app
-      - /app
+      - ./backend/patient/target:/app
     ports:
       - "${PATIENT_PORT_EXT}:${PATIENT_PORT_INT}"
     depends_on:
@@ -82,8 +80,7 @@ services:
     build: ${BUILD_PATH_REPORT}
     container_name: ${REPORT_CONTAINER_NAME}
     volumes:
-      - ./backend/report:/app
-      - /app
+      - ./backend/report/target:/app
     ports:
       - "${REPORT_PORT_EXT}:${REPORT_PORT_INT}"
     depends_on:
@@ -97,8 +94,7 @@ services:
     build: ${BUILD_PATH_GATEWAY}
     container_name: ${GATEWAY_CONTAINER_NAME}
     volumes:
-      - ./backend/gateway:/app
-      - /app
+      - ./backend/gateway/target:/app
     ports:
       - "${GATEWAY_PORT_EXT}:${GATEWAY_PORT_INT}"
     depends_on:
