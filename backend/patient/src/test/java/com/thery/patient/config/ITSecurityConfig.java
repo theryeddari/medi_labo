@@ -25,20 +25,23 @@ public class ITSecurityConfig {
     @Value("${MEDILABO_PASSWORD}")
     private String medilaboPassword;
 
-    String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
 
     //WithMockUser password by default its password
     @Test
     public void testAuthenticationAuthorized() throws Exception {
+        String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
+
         mockMvc.perform(MockMvcRequestBuilders.get("/clientele")
-                        .header("Authorization", "Basic " + authHeader))
+                        .header("Authorization", authHeader))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
     public void testAuthenticationUnauthorized() throws Exception {
+        String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
+
         mockMvc.perform(MockMvcRequestBuilders.get("/clientele")
-                        .header("Authorization", "Basic " + authHeader))
+                        .header("Authorization", authHeader))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
 }

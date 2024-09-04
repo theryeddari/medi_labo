@@ -7,6 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -37,6 +38,13 @@ public class ITNoteController {
     @Autowired
     private ObjectMapper objectMapper;
 
+
+    @Value("${MEDILABO_USER}")
+    private String medilaboUser;
+
+    @Value("${MEDILABO_PASSWORD}")
+    private String medilaboPassword;
+
     @AfterEach
     public void tearDown() {
         Query query = new Query();
@@ -46,10 +54,12 @@ public class ITNoteController {
 
     @Test
     public void testGetNotes_Success() throws Exception {
+        String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
+
 
         mockMvc.perform(get("/notes/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("doctor:password".getBytes())))
+                        .header("Authorization", authHeader))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(containsString("Poids")));
 
@@ -58,13 +68,14 @@ public class ITNoteController {
 
     @Test
     public void testAddNote_Success() throws Exception {
+        String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
 
         NoteRequest noteRequest = new NoteRequest("12345", LocalDateTime.now(), "Some note");
 
         String jsonResponse = mockMvc.perform(post("/note")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(noteRequest))
-                        .header("Authorization", "Basic " + Base64.getEncoder().encodeToString("doctor:password".getBytes())))
+                        .header("Authorization", authHeader))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(status().isOk())
                 .andReturn()

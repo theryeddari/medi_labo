@@ -1,6 +1,5 @@
 package com.thery.gateway.config;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,19 +24,19 @@ public class SecurityIntegrationTest {
     @Value("${MEDILABO_PASSWORD}")
     private String medilaboPassword;
 
-    String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
+
     @Value("${ROUTE_GATEWAY}")
     private String ROUTE_GATEWAY;
 
-    //for configuration integration tests, there is no direct component to test or external
-    // service, so we will do our tests by banning ourselves on a route that does not exist (BAD_GATEWAY).
-    @Disabled
     @Test
     public void testCorsConfiguration() {
+
+        String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
+
         webTestClient.get()
                 .uri(ROUTE_GATEWAY + "/api/clientele")
                 .header("Origin", "${ROUTE_ANGULAR}")
-                .header("Authorization", "Basic " + authHeader)
+                .header("Authorization", authHeader)
                 .header("Access-Control-Request-Method", "GET")
                 .exchange()
                 .expectStatus().isEqualTo(HttpStatus.OK)
@@ -51,12 +50,15 @@ public class SecurityIntegrationTest {
 
     @Test
     public void testAuthentication() {
+
+        String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
+
         webTestClient.get()
                 .uri(ROUTE_GATEWAY + "/api/gateway/noexist")
-                .header("Origin", "${ROUTE_ANGULAR}")
-                .header("Authorization", "Basic " + authHeader)
+                .header("Origin", "${ROUTE_NOTE}")
+                .header("Authorization", authHeader)
                 .header("Access-Control-Request-Method", "GET")
                 .exchange()
-                .expectStatus().isEqualTo(HttpStatus.UNAUTHORIZED);
+                .expectStatus().isEqualTo(HttpStatus.FORBIDDEN);
     }
 }

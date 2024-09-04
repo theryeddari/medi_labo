@@ -16,7 +16,7 @@ public enum RiskWord {
     TAILLE(List.of("Taille")),
     POIDS(List.of("Poids")),
     FUMEUR(List.of("Fumeur", "Fumeuse")),
-    ANORMAL(List.of("Anormal")),
+    ANORMAL(List.of("Anormale")),
     CHOLESTEROL(List.of("Cholestérol")),
     VERTIGES(List.of("Vertiges")),
     RECHUTE(List.of("Rechute")),

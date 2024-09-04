@@ -16,7 +16,7 @@ medilaboDB.FollowNote.insertMany([
     {
         patientId: "1",
         date: new Date('2024-01-01T00:00:00Z'),
-        note: 'Poids égal ou inférieur au poids recommandé',
+        note: 'Tout va bien',
         patient: 'TestNone'
     },
     {
@@ -28,19 +28,19 @@ medilaboDB.FollowNote.insertMany([
     {
         patientId: "2",
         date: new Date('2024-01-03T00:00:00Z'),
-        note: 'Il remarque également que son audition continue d\'être anormale',
+        note: 'Il remarque également que son audition continue d\'être anormale, quelques vertiges',
         patient: 'TestBorderline'
     },
     {
         patientId: "3",
         date: new Date('2024-01-04T00:00:00Z'),
-        note: 'Le patient déclare qu\'il fume depuis peu',
+        note: 'Le patient déclare qu\'il est fumeur depuis peu',
         patient: 'TestInDanger'
     },
     {
         patientId: "3",
         date: new Date('2024-01-05T00:00:00Z'),
-        note: 'Il se plaint également de crises d’apnée respiratoire anormales',
+        note: 'Il se plaint également de crises d’apnée respiratoire anormale, faible anticorps',
         patient: 'TestInDanger'
     },
     {
@@ -58,13 +58,13 @@ medilaboDB.FollowNote.insertMany([
     {
         patientId: "4",
         date: new Date('2024-01-08T00:00:00Z'),
-        note: 'Le patient déclare avoir commencé à fumer depuis peu',
+        note: 'Le patient déclare avoir commencé à etre fumeur depuis peu, rechute dans l alcool ',
         patient: 'TestEarlyOnset'
     },
     {
         patientId: "4",
         date: new Date('2024-01-09T00:00:00Z'),
-        note: 'Taille, Poids, Cholestérol, Vertige et Réaction',
+        note: 'Taille , Poids , Cholestérol , Vertiges et Réaction',
         patient: 'TestEarlyOnset'
     }
 ]);

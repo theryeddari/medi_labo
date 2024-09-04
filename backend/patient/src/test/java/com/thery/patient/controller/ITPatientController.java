@@ -40,14 +40,15 @@ public class ITPatientController {
     @Value("${MEDILABO_PASSWORD}")
     private String medilaboPassword;
 
-    String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
 
     @Test
     public void testGetClientele_Success() throws Exception {
+        String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
+
 
         mockMvc.perform(get("/clientele")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Basic " + authHeader))
+                        .header("Authorization", authHeader))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(response ->
                         Assertions.assertTrue(Objects.requireNonNull(response.getResponse().getContentAsString()).contains("TestNone")));
@@ -55,11 +56,12 @@ public class ITPatientController {
 
     @Test
     public void testGetPatient_Success() throws Exception {
+        String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
 
         mockMvc.perform(get("/clientele")
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("patientId", "1")
-                        .header("Authorization", "Basic " + authHeader))
+                        .header("Authorization", authHeader))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(response ->
                         Assertions.assertTrue(Objects.requireNonNull(response.getResponse().getContentAsString()).contains("TestNone")));
@@ -69,12 +71,14 @@ public class ITPatientController {
     @WithMockUser(username = "doctor")
     public void testUpdatePatient_Success() throws Exception {
 
+        String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
+
         PatientRequest patientRequest = new PatientRequest(1, "dupont", "alice", LocalDateTime.now(), "F", "", "");
 
         String jsonResponse = mockMvc.perform(post("/patient")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(patientRequest))
-                        .header("Authorization", "Basic " + authHeader))
+                        .header("Authorization", authHeader))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .getResponse()
