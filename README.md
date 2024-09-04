@@ -6,6 +6,18 @@
 
 Vous trouverez ici le document [Document de présentation MedicalLabo](https://github.com/theryeddari/medi_labo/blob/5dfb957c32f3be62691644150422112fd4ef40f4/MedicalLabo%20documentation.pdf)
 
+Le document contient :
+
+- **Présentation du Projet** : Vue d'ensemble et objectifs.
+- **Fonctionnalités** : Description des fonctionnalités principales.
+- **Architecture** : Schémas et description technique du système.
+- **Configuration** : Instructions pour le déploiement et la configuration.
+- **Tests** : Stratégies et outils de test.
+- **Sécurité** : Mesures de sécurité et gestion des données.
+- **Green Code** :Une section sur le green Code concernant les améliorations à apporté et globalement une reflexion sur cette pratique.
+
+  Pour toute question ou besoin d’assistance, référez-vous aux sections de support du document.
+
 ## Prérequis
 
 - **Java** : 21
@@ -15,7 +27,6 @@ Vous trouverez ici le document [Document de présentation MedicalLabo](https://g
 - **Log4j2**
 - **Jacoco** : pour la couverture de code
 - **Surefire** : pour les rapports de tests
-- **les modules ou bien le ComposeDocker pour Deployement automatique**
 
 ## Installation
 
@@ -23,82 +34,6 @@ La branch Main est utilisé comme branch de présentation par défaut.
 
 Pour toute utilisation du code, ajout ou modification veuillez creer une nouvelle branch à partir de la branch Master qui est diponible dans le projet aprés avoir cloner le repro.
 
-[Branch Master]() 
-
-Clonez le dépôt de la branch Master:
-
-```
-git clone https://github.com/theryeddari/P8-TourGuide.git
-```
-Copier le code
-```
-cd TourGuide
-```
-Compilez et installez les dépendances :
-
-```
-mvn install:install-file -Dfile="libs/gpsUtil.jar" -DgroupId="gpsUtil" -DartifactId="gpsUtil" -Dversion="1.0.0" -Dpackaging="jar"  
-mvn install:install-file -Dfile="libs/RewardCentral.jar" -DgroupId="rewardCentral" -DartifactId="rewardCentral" -Dversion="1.0.0" -Dpackaging="jar"  
-mvn install:install-file -Dfile="libs/TripPricer.jar" -DgroupId="tripPricer" -DartifactId="tripPricer" -Dversion="1.0.0" -Dpackaging="jar"
-```
-
-```
-./mvnw clean install
-```
-Lancez l'application :
-
-```
-./mvnw spring-boot:run
-```
-## Améliorations et Corrections
-
-### Optimisation des Performances
-
-- gpsUtil : L'appel à gpsUtil a été optimisé pour traiter 100 000 localisations en moins de 15 minutes.
-- RewardsService : Le temps de réponse a été réduit pour calculer les récompenses de 100 000 utilisateurs en moins de 20 minutes.
-- Corrections de Bugs
-- Tests Unitaires : Correction des tests échouant de manière intermittente.
-- Recommandations d'Attractions :
-Correction du bug empêchant l'envoi de recommandations. Les 5 attractions les plus proches sont désormais toujours recommandées.
-
-### Tests
-Pour exécuter les tests unitaires :
-
-``` 
-./mvnw test
-```
-Le rapport de test est disponible dans le dossier target/site/index.html ou présent  ici :
-
-[rapport SureFire](https://github.com/theryeddari/P8-TourGuide/blob/e51bbd3725823a355724c16e5ba6e0512cbd124f/surefire.png)
-
-### Couverture de code
-
-Pour générer un rapport de couverture :
-
-```
-./mvnw verify
-```
-
-Le rapports de couverture est disponible dans le dossier target/site/jacoco/index.html ou présent  ici
-
-[rapport Jacoco](https://github.com/theryeddari/P8-TourGuide/blob/e51bbd3725823a355724c16e5ba6e0512cbd124f/jacoco.png)
-
-## Pipeline d'Intégration Continue
-
-### CI Tool : GitHub Actions
-Processus : Compilation, exécution des tests, vérification des performances ,génération de l'artefact (JAR) et vérification statique avec OpenSonar lorsque que la branch master est push
-
-## Structure du Projet
-```
-/src
-  /main
-    /java
-      /com/openclassrooms/tourguide
-    /resources
-  /test
-    /java
-      /com/openclassrooms/tourguide
-```
 ## Green Code
 Le Green Code est une approche de développement visant à réduire l'empreinte écologique des applications en optimisant les ressources et en minimisant l'impact environnemental tout au long de leur cycle de vie. Dans ce projet, nous pouvons mettre en place diverses actions pour rendre notre code plus écoresponsable, notamment l'optimisation des requêtes, l'efficacité du code, la gestion des ressources serveurs, et l'utilisation d'une infrastructure cloud durable.
 
