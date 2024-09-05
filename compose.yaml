@@ -104,19 +104,6 @@ services:
     env_file:
       - .env
 
-  site:
-    image: ghcr.io/${GHCR_PATH}/site:latest
-    build: ${BUILD_PATH_SITE}
-    container_name: ${SITE_CONTAINER_NAME}
-    volumes:
-      - ./frontend/site:/app
-    ports:
-      - "${SITE_PORT_EXT}:${SITE_PORT_INT}"
-    depends_on:
-      - gateway
-    env_file:
-      - .env
-
 volumes:
   mysql_data:
   mongodb_data:
