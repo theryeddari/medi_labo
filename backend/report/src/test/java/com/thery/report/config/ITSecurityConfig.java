@@ -3,17 +3,16 @@ package com.thery.report.config;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.Base64;
 
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureWebTestClient(timeout = "36000")
 public class ITSecurityConfig {
 
     @Value("${MEDILABO_USER}")
@@ -22,26 +21,33 @@ public class ITSecurityConfig {
     @Value("${MEDILABO_PASSWORD}")
     private String medilaboPassword;
 
+    @Value("${ROUTE_REPORT}")
+    private String ROUTE_REPORT;
+
 
     @Autowired
-    private MockMvc mockMvc;
+    private WebTestClient webTestClient;
 
     @Test
-    public void testAuthenticationAuthorized() throws Exception {
+    public void testAuthenticationAuthorized() {
         String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/report/1")
-                        .header("Authorization", authHeader))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        webTestClient.get()
+                .uri(ROUTE_REPORT + "/report/1")
+                .header("Authorization", authHeader)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.OK);
     }
 
     @Test
-    public void testAuthenticationUnauthorized() throws Exception {
+    public void testAuthenticationUnauthorized() {
 
-        String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
+        String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + "wrong").getBytes());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/report/")
-                        .header("Authorization", authHeader))
-                .andExpect(MockMvcResultMatchers.status().isUnauthorized());
+        webTestClient.get()
+                .uri("/report/1")
+                .header("Authorization", authHeader)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.UNAUTHORIZED);
     }
 }

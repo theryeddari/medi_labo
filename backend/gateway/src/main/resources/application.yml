@@ -10,7 +10,16 @@ spring:
 
   cloud:
     gateway:
+
       routes:
+        #login check
+        - id: login-check
+          uri: no://op
+          predicates:
+            - Path=/api/auth
+          filters:
+            - SetStatus=200
+
         # Patient routes
         - id: patient-list
           uri: ${ROUTE_PATIENT}

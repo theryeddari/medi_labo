@@ -45,25 +45,24 @@ public class ReportService {
      *
      * @param patientId The ID of the patient.
      * @return A ReportResponse containing the estimated risk.
-     * @throws RiskEstimationException if an error occurs during risk estimation.
      */
-    public ReportResponse riskEstimation(String patientId) throws RiskEstimationException {
-        try {
+    public Mono<ReportResponse> riskEstimation(String patientId) {
+
             String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
 
             Mono<PatientResponse> monoPatientResponse = webGateway.get()
                     .uri("/api/clientele/patient/{patientId}", patientId)
                     .header("Authorization", authHeader)
                     .retrieve()
-                    .bodyToMono(PatientResponse.class);
+                    .bodyToMono(PatientResponse.class).onErrorResume(e -> Mono.error(new RiskEstimationException((Exception) e)));
 
             Mono<NotesResponse> monoFollowNoteResponse = webGateway.get()
                     .uri("/api/clientele/patient/notes/{patientId}", patientId)
                     .header("Authorization", authHeader)
                     .retrieve()
-                    .bodyToMono(NotesResponse.class);
+                    .bodyToMono(NotesResponse.class).onErrorResume(e -> Mono.error(new RiskEstimationException((Exception) e)));
 
-            String risk = Mono.zip(monoPatientResponse, monoFollowNoteResponse)
+        return Mono.zip(monoPatientResponse, monoFollowNoteResponse)
                     .map(concatenate -> {
                         PatientResponse patientResponse = concatenate.getT1();
                         NotesResponse notesResponse = concatenate.getT2();
@@ -71,12 +70,8 @@ public class ReportService {
                         int age = calculateAge(patientResponse.getBirthdate());
                         boolean isMan = patientResponse.getGender().equals("M");
 
-                        return calculateRisk(age, isMan, notesResponse);
-                    }).block();
-
-            return new ReportResponse(risk);
-        } catch (Exception e) {
-            throw new RiskEstimationException(e);
-        }
+                        String risk = calculateRisk(age, isMan, notesResponse);
+                        return new ReportResponse(risk);
+                    }).onErrorResume(e -> Mono.error(new RiskEstimationException((Exception) e)));
     }
 }

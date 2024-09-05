@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import static com.thery.report.exception.ReportServiceException.RiskEstimationException;
 
@@ -35,9 +36,9 @@ public class ReportController {
      * @throws RiskEstimationException if an error occurs while fetching the report
      */
     @GetMapping("/report/{patientId}")
-    public ReportResponse getReport(@PathVariable String patientId) throws RiskEstimationException {
+    public Mono<ReportResponse> getReport(@PathVariable String patientId) throws RiskEstimationException {
         logger.info("Fetching report patient");
-        ReportResponse reportResponse = reportService.riskEstimation(patientId);
+        Mono<ReportResponse> reportResponse = reportService.riskEstimation(patientId);
         logger.info("Patient report fetched successfully");
         return reportResponse;
     }

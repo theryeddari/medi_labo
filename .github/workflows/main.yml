@@ -35,7 +35,7 @@ jobs:
 
       # Build and package the application with Maven, including tests
       - name: Build and package with Maven
-        run: mvn clean package -DskipTests
+        run: mvn clean package
 
       # Create the .env file from the secret
       - name: Create .env file

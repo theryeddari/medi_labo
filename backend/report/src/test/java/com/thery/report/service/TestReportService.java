@@ -3,7 +3,6 @@ package com.thery.report.service;
 import com.thery.report.dto.NotesResponse;
 import com.thery.report.dto.PatientResponse;
 import com.thery.report.dto.ReportResponse;
-import com.thery.report.exception.ReportServiceException;
 import com.thery.report.util.RiskCalculatorUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,9 @@ import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.Objects;
 
+import static com.thery.report.exception.ReportServiceException.RiskEstimationException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -41,7 +42,7 @@ class TestReportService {
     }
 
     @Test
-    void testRiskEstimation_Success() throws Exception {
+    void testRiskEstimation_Success() {
         // Given
         String patientId = "1";
         String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
@@ -62,18 +63,6 @@ class TestReportService {
         doReturn(responseSpecMock).when(headersSpecMock).retrieve();
         doReturn(Mono.just(mockPatientResponse)).doReturn(Mono.just(mockNotesResponse)).when(responseSpecMock).bodyToMono(ArgumentMatchers.<Class<PatientResponse>>notNull());
 
-//        // Mock the WebClient interactions for notes
-//        WebClient.RequestHeadersUriSpec<?> uriSpecNoteMock = Mockito.mock(WebClient.RequestHeadersUriSpec.class);
-//        WebClient.RequestHeadersSpec<?> headersSpecNoteMock = Mockito.mock(WebClient.RequestHeadersSpec.class);
-//        WebClient.ResponseSpec responseSpecNoteMock = Mockito.mock(WebClient.ResponseSpec.class);
-//
-//        // Use doReturn to configure the mocks
-//        doReturn(uriSpecNoteMock).when(webGateway).get();
-//        doReturn(headersSpecNoteMock).when(uriSpecNoteMock).uri("/api/clientele/patient/notes/1", patientId);
-//        doReturn(headersSpecNoteMock).when(headersSpecNoteMock).header(eq("Authorization"), eq(authHeader));
-//        doReturn(responseSpecNoteMock).when(headersSpecNoteMock).retrieve();
-//        doReturn(Mono.just(mockNotesResponse)).when(responseSpecNoteMock).bodyToMono(ArgumentMatchers.<Class<NotesResponse>>notNull());
-
         // Instantiate the service with the mocked WebClients
         ReportService reportService = new ReportService(webGateway);
 
@@ -82,24 +71,32 @@ class TestReportService {
             mockedStatic.when(() -> RiskCalculatorUtil.calculateAge(mockPatientResponse.getBirthdate())).thenReturn(40);
             mockedStatic.when(() -> RiskCalculatorUtil.calculateRisk(eq(40), eq(false), eq(mockNotesResponse))).thenReturn("None");
 
-            // When
-            ReportResponse reportResponse = reportService.riskEstimation(patientId);
+            Mono<ReportResponse> monoReportResponse = reportService.riskEstimation(patientId);
 
-            // Then
-            assertEquals("None", reportResponse.getRiskEstimation());
+            ReportResponse reportResponse = monoReportResponse.block();
+
+            assertEquals("None", Objects.requireNonNull(reportResponse).getRiskEstimation());
         }
     }
 
 
     @Test
     void testRiskEstimation_Exception() {
-        // Given
-        String patientId = "12345";
+        String patientId = "1";
+        String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
 
-        doReturn(mock(WebClient.RequestHeadersUriSpec.class)).when(webGateway).get();
-        doThrow(new RuntimeException("Test exception")).when(webGateway).get();
+        WebClient.RequestHeadersUriSpec<?> uriSpecMock = Mockito.mock(WebClient.RequestHeadersUriSpec.class);
+        WebClient.RequestHeadersSpec<?> headersSpecMock = Mockito.mock(WebClient.RequestHeadersSpec.class);
+        WebClient.ResponseSpec responseSpecMock = Mockito.mock(WebClient.ResponseSpec.class);
 
-        // When & Then
-        assertThrows(ReportServiceException.RiskEstimationException.class, () -> reportService.riskEstimation(patientId));
+        // Use doReturn to configure the mocks
+        doReturn(uriSpecMock).when(webGateway).get();
+        doReturn(headersSpecMock).when(uriSpecMock).uri(anyString(), eq(patientId));
+        doReturn(headersSpecMock).when(headersSpecMock).header("Authorization", authHeader);
+        doReturn(responseSpecMock).when(headersSpecMock).retrieve();
+        doReturn(Mono.error(new RuntimeException())).when(responseSpecMock).bodyToMono(ArgumentMatchers.<Class<PatientResponse>>notNull());
+
+        Exception exception = assertThrows(Exception.class, () -> reportService.riskEstimation(patientId).block());
+        assertEquals(RiskEstimationException.class, exception.getCause().getClass());
     }
 }

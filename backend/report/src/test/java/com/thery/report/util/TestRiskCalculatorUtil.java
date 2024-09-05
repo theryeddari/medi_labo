@@ -10,7 +10,7 @@ import java.util.List;
 import static com.thery.report.util.RiskCalculatorUtil.calculateRisk;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class RiskCalculatorUtilTest {
+class TestRiskCalculatorUtil {
 
     @Test
     void testCalculateRisk_None() {
