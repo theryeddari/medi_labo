@@ -1,5 +1,5 @@
 {
-  "name": "front-end",
+  "name": "angular",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -22,12 +22,9 @@
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
   },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.20.0"
-  },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.1",
-    "@angular/cli": "^18.2.1",
+    "@angular-devkit/build-angular": "^18.2.3",
+    "@angular/cli": "^18.2.3",
     "@angular/compiler-cli": "^18.2.0",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.2.0",

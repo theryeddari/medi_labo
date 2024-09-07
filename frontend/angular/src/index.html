@@ -1,13 +1,27 @@
-<!doctype html>
+<!-- src/app/main.html -->
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>FrontEnd</title>
-  <base href="/">
-  <meta content="width=device-width, initial-scale=1" name="viewport">
-  <link href="favicon.ico" rel="icon" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Main Page</title>
+  <link href="styles.css" rel="stylesheet">
 </head>
 <body>
-<app-root></app-root>
+<header class="header">
+  <div class="logo">
+    <h1>Medical Labo</h1>
+  </div>
+  <nav class="navbar">
+    <ul>
+      <li><a href="/clientele" routerLinkActive="active">Clientele</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <app-root></app-root>
+</main>
 </body>
 </html>

@@ -29,11 +29,10 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
-                .authorizeExchange(auth -> auth.anyExchange().authenticated())
                 .cors(gateway -> gateway.configurationSource(registry -> {
 
                     CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(List.of("${ROUTE_ANGULAR}"));
+                    config.setAllowedOrigins(List.of("http://localhost:4200"));
                     config.setAllowedMethods(List.of("GET", "POST"));
                     config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
                     config.setExposedHeaders(List.of("Authorization", "Content-Type"));
@@ -41,6 +40,7 @@ public class SecurityConfig {
                     config.setAllowCredentials(true);
                     return config;
                 }))
+                .authorizeExchange(auth -> auth.anyExchange().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .formLogin(ServerHttpSecurity.FormLoginSpec::disable)

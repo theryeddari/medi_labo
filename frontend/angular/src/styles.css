@@ -1,1 +1,65 @@
 /* You can add global styles to this file, and also import other style files */
+/* src/app/styles.css */
+html, body {
+  height: 100%; /* Assure que le body prend 100% de la hauteur de la fenêtre */
+  margin: 0; /* Supprime les marges par défaut */
+  width: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4cacaf;
+  color: white;
+  padding: 50px;
+}
+
+.logo h1 {
+  font-size: xxx-large;
+  margin: 0;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+.navbar li {
+  margin-left: 20px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+.navbar a:active {
+  text-decoration: underline;
+}
+
+/* Css pour le main */
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #65cddd;
+}
