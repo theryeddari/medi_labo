@@ -1,0 +1,66 @@
+.clientele-table-container {
+  height: 350px;
+  width: 600px;
+  border-radius: 20px;
+  background-color: #f9f9f9;
+  position: relative;
+  border: 4px solid #ddd;
+  padding: 10px; /* Espace autour du tableau */
+  overflow: hidden; /* Masquer tout dépassement */
+  box-sizing: border-box;
+}
+
+.scrollable-container {
+  height: calc(100% - 40px); /* Ajuster la hauteur pour laisser de l'espace pour les marges/padding */
+  overflow-y: auto; /* Barre de défilement ici */
+  padding-right: 10px; /* Crée un espace à droite pour éviter que la barre de défilement touche le tableau */
+}
+
+.scrollable-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+  border-radius: 6px;
+  background-color: #f1f1f1;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background-color: rgba(104, 210, 223, 0.74);
+  border-radius: 6px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(54, 186, 204);
+}
+
+.clientele-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.clientele-table th, .clientele-table td {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+}
+
+.clientele-table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f9f9f9; /* Arrière-plan pour le sticky */
+  z-index: 1; /* Assure que l'en-tête est au-dessus du reste */
+}
+
+.clientele-table tbody tr:hover {
+  background-color: rgba(104, 210, 223, 0.74);
+}
+
+.clientele-table td {
+  height: 20px;
+}
+
+.process-request {
+  text-align: center;
+  color: #2f9caa;
+}

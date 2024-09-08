@@ -34,14 +34,14 @@ public class PatientResponse {
 
 
     /**
-     * The phone number of the patient.
-     */
-    String phone;
-
-    /**
      * The address of the patient.
      */
     String address;
+
+    /**
+     * The phone number of the patient.
+     */
+    String phone;
 
     /**
      * Default constructor for PatientResponse.

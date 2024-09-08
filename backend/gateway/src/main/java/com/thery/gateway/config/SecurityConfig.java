@@ -3,6 +3,7 @@ package com.thery.gateway.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -42,6 +44,15 @@ public class SecurityConfig {
                 }))
                 .authorizeExchange(auth -> auth.anyExchange().authenticated())
                 .httpBasic(Customizer.withDefaults())
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint((exchange, e) -> {
+                            // customize the response in case of failure to avoid that by default spring boot sends
+                            // a response with the WWW-Authenticate header which displays a window in addition to our
+                            // front on the browser to authenticate
+                            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                            return Mono.empty();
+                        })
+                )
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
                 .logout(ServerHttpSecurity.LogoutSpec::disable)

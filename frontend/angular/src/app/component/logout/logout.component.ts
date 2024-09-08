@@ -11,7 +11,7 @@ export class LogoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    localStorage.removeItem('authCredentials'); // Supprime les informations d'authentification
-    this.router.navigate(['/login']); // Redirige vers la page de connexion
+    localStorage.removeItem('authCredentials');
+    this.router.navigate(['/login']);
   }
 }

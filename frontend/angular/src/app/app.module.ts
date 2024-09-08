@@ -3,29 +3,31 @@ import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {HTTP_INTERCEPTORS, provideHttpClient, withFetch} from "@angular/common/http";
+import {provideHttpClient, withFetch} from "@angular/common/http";
 import {ClienteleComponent} from './component/clientele/clientele.component';
-import {AuthInterceptor} from "./interceptor/auth-interceptor.service";
 import {LogoutComponent} from "./component/logout/logout.component";
 import {FormsModule} from "@angular/forms";
 import {LoginComponent} from "./component/login/login.component";
+import {PatientComponent} from './component/patient/patient.component';
+import {NoteComponent} from './component/note/note.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ClienteleComponent,
-    LogoutComponent
+    LogoutComponent,
+    PatientComponent,
+    NoteComponent
   ],
   imports: [
     BrowserModule,
     FormsModule, //bidirection formulaire enfant parent et inversement
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [
     provideClientHydration(),
     provideHttpClient(withFetch()),
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

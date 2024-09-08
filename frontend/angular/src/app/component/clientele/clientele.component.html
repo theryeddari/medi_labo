@@ -1,1 +1,28 @@
-<p>clientele works!</p>
+<div class="clientele-table-container">
+  <div class="scrollable-container">
+    <table class="clientele-table">
+      <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Username</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Afficher le message d'erreur en cas de pb -->
+      <tr *ngIf="processRequest" class="process-request">
+        <td colspan="2">{{ processRequest }}</td>
+      </tr>
+      <!-- Afficher les données des clients réels -->
+      <tr (click)="onClientClick(client.patientId)" *ngFor="let client of clients">
+        <td>{{ client.name }}</td>
+        <td>{{ client.username }}</td>
+      </tr>
+      <!-- Afficher les lignes vides si nécessaire -->
+      <tr *ngFor="let empty of emptyRows">
+        <td>{{ empty }}</td>
+        <td>{{ empty }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
