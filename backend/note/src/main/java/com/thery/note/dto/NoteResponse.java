@@ -3,7 +3,7 @@ package com.thery.note.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * Represents a response containing note information.
@@ -16,7 +16,7 @@ public class NoteResponse {
     /**
      * The birthdate of the patient.
      */
-    LocalDateTime date;
+    Timestamp date;
 
     /**
      * The name of the patient.

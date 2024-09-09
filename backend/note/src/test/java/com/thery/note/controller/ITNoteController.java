@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Base64;
 
@@ -61,7 +62,7 @@ public class ITNoteController {
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", authHeader))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(containsString("Poids")));
+                .andExpect(MockMvcResultMatchers.content().string(containsString("Tout va bien")));
 
 
     }
@@ -70,7 +71,7 @@ public class ITNoteController {
     public void testAddNote_Success() throws Exception {
         String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
 
-        NoteRequest noteRequest = new NoteRequest("12345", LocalDateTime.now(), "Some note");
+        NoteRequest noteRequest = new NoteRequest("12345", Timestamp.valueOf(LocalDateTime.now()), "Some note");
 
         String jsonResponse = mockMvc.perform(post("/note")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class TestNoteController {
 
     @Test
     void getNotes_success() throws NoteServiceException {
-        NotesResponse notesResponse = new NotesResponse(List.of(new NoteResponse(LocalDateTime.now(), "surpoids")));
+        NotesResponse notesResponse = new NotesResponse(List.of(new NoteResponse(Timestamp.valueOf(LocalDateTime.now()), "surpoids")));
 
         when(followNoteService.findNotes("1")).thenReturn(notesResponse);
 
@@ -41,8 +42,8 @@ public class TestNoteController {
 
     @Test
     void addNote_success() throws NoteServiceException.SaveNoteException {
-        NoteRequest noteRequest = new NoteRequest("1", LocalDateTime.now(), "Some note");
-        NoteResponse noteResponse = new NoteResponse(LocalDateTime.now(), "Some note");
+        NoteRequest noteRequest = new NoteRequest("1", Timestamp.valueOf(LocalDateTime.now()), "Some note");
+        NoteResponse noteResponse = new NoteResponse(Timestamp.valueOf(LocalDateTime.now()), "Some note");
         when(followNoteService.saveNote(noteRequest)).thenReturn(noteResponse);
 
         NoteResponse result = noteController.addNote(noteRequest);

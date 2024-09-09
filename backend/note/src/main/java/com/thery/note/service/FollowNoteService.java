@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class FollowNoteService {
         try {
             List<NoteResponse> noteResponseList = new ArrayList<>();
             List<Note> followNote = noteRepository.findFollowNoteByPatientId(patientId);
-            followNote.forEach(note -> noteResponseList.add(new NoteResponse(note.getDate(), note.getNote())));
+            followNote.forEach(note -> noteResponseList.add(new NoteResponse(Timestamp.from(note.getDate().toInstant()), note.getNote())));
             return new NotesResponse(noteResponseList);
 
         } catch (Exception e) {
@@ -72,7 +73,7 @@ public class FollowNoteService {
 
             Note noteSaved = noteRepository.save(note);
             logger.info("Successfully saved note: {}", note.getId());
-            return new NoteResponse(noteSaved.getDate(), noteSaved.getNote());
+            return new NoteResponse(Timestamp.from(noteSaved.getDate().toInstant()), noteSaved.getNote());
         } catch (Exception e) {
             logger.error("Error saving followNote: {}", e.getMessage());
             throw new SaveNoteException(e);

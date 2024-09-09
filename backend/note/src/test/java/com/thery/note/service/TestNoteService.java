@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class TestNoteService {
     public void testFindFollowNote_Success() throws NoteServiceException.FindNoteException {
         String patientId = "1";
         Note note = new Note();
-        note.setDate(LocalDateTime.now());
+        note.setDate(Timestamp.valueOf(LocalDateTime.now()));
         note.setNote("Patient follow-up note");
         note.setPatientId(patientId);
 
@@ -60,7 +61,7 @@ public class TestNoteService {
     @Test
     public void testSaveFollowNote_Success() throws SaveNoteException {
         String patientId = "123";
-        LocalDateTime noteDate = LocalDateTime.now();
+        Timestamp noteDate = Timestamp.valueOf(LocalDateTime.now());
         NoteRequest noteRequest = new NoteRequest(patientId, noteDate, "New follow-up note");
 
         Note note = new Note();
@@ -80,7 +81,7 @@ public class TestNoteService {
     @Test
     public void testSaveFollowNote_ThrowsException() {
         String patientId = "123";
-        LocalDateTime noteDate = LocalDateTime.now();
+        Timestamp noteDate = Timestamp.valueOf(LocalDateTime.now());
         NoteRequest noteRequest = new NoteRequest(patientId, noteDate, "New follow-up note");
 
         when(noteRepository.save(any(Note.class))).thenThrow(new RuntimeException());

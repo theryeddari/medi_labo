@@ -7,7 +7,7 @@ package com.thery.patient.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * PatientRequest is a Data Transfer Object used for transferring patient information.
@@ -34,7 +34,7 @@ public class PatientRequest {
     /**
      * The birthdate of the patient.
      */
-    LocalDateTime birthdate;
+    Timestamp birthdate;
 
     /**
      * The gender of the patient.

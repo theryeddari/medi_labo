@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -26,7 +27,7 @@ public class TestPatientRepository {
         Patient patient = new Patient();
         patient.setName("Dupont");
         patient.setUsername("Alice");
-        patient.setBirthdate(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()));
+        patient.setBirthdate(Timestamp.valueOf(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault())));
         patient.setGender("F");
 
         patient = patientRepository.save(patient);
@@ -39,7 +40,7 @@ public class TestPatientRepository {
         Patient patient = new Patient();
         patient.setName("Dupont");
         patient.setUsername("Alice");
-        patient.setBirthdate(LocalDateTime.now());
+        patient.setBirthdate(Timestamp.valueOf(LocalDateTime.now()));
         patient.setGender("F");
         patient = patientRepository.save(patient);
 
@@ -60,7 +61,7 @@ public class TestPatientRepository {
         Patient patient = new Patient();
         patient.setName("Dupont");
         patient.setUsername("Alice");
-        patient.setBirthdate(LocalDateTime.now());
+        patient.setBirthdate(Timestamp.valueOf(LocalDateTime.now()));
         patient.setGender("F");
         patient = patientRepository.save(patient);
 

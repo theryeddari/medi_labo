@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * Represents a patient entity in the system.
@@ -52,7 +52,7 @@ public class Patient {
      */
     @NotNull
     @Column(name = "birthdate", nullable = false)
-    private LocalDateTime birthdate;
+    private Timestamp birthdate;
 
     /**
      * The gender of the patient.

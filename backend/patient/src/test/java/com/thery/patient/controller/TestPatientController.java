@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class TestPatientController {
     @Test
     void getPatient_success() throws PatientServiceException.FindPatientException {
 
-        PatientResponse patientResponse = new PatientResponse("Dupont", "Alice", LocalDateTime.now(), "F", "", "");
+        PatientResponse patientResponse = new PatientResponse("Dupont", "Alice", Timestamp.valueOf(LocalDateTime.now()), "F", "", "");
 
         when(patientService.findPatient("1")).thenReturn(patientResponse);
 
@@ -59,8 +60,8 @@ public class TestPatientController {
     @Test
     void updatePatient_success() throws PatientServiceException.SavePatientException {
 
-        PatientResponse patientResponse = new PatientResponse("Dupont", "Alice", LocalDateTime.now(), "F", "", "");
-        PatientRequest patientRequest = new PatientRequest(1, "Dupont", "Alice", LocalDateTime.now(), "F", "", "");
+        PatientResponse patientResponse = new PatientResponse("Dupont", "Alice", Timestamp.valueOf(LocalDateTime.now()), "F", "", "");
+        PatientRequest patientRequest = new PatientRequest(1, "Dupont", "Alice", Timestamp.valueOf(LocalDateTime.now()), "F", "", "");
 
 
         when(patientService.savePatient(patientRequest)).thenReturn(patientResponse);

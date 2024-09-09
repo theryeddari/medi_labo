@@ -6,6 +6,7 @@ package com.thery.report.util;
 import com.thery.report.constant.RiskWord;
 import com.thery.report.dto.NotesResponse;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -58,7 +59,7 @@ public class RiskCalculatorUtil {
      * @param birthdate the birthdate of the individual
      * @return the calculated age as an integer
      */
-    public static int calculateAge(LocalDateTime birthdate) {
-        return Math.abs(birthdate.minusYears(LocalDateTime.now().getYear()).getYear());
+    public static int calculateAge(Timestamp birthdate) {
+        return Math.abs(birthdate.toLocalDateTime().minusYears(LocalDateTime.now().getYear()).getYear());
     }
 }

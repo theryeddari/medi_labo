@@ -16,6 +16,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Objects;
@@ -73,7 +74,7 @@ public class ITPatientController {
 
         String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
 
-        PatientRequest patientRequest = new PatientRequest(1, "dupont", "alice", LocalDateTime.now(), "F", "", "");
+        PatientRequest patientRequest = new PatientRequest(1, "dupont", "alice", Timestamp.valueOf(LocalDateTime.now()), "F", "", "");
 
         String jsonResponse = mockMvc.perform(post("/patient")
                         .contentType(MediaType.APPLICATION_JSON)

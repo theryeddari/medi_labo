@@ -3,7 +3,7 @@ package com.thery.patient.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * Represents a response containing patient information.
@@ -25,7 +25,7 @@ public class PatientResponse {
     /**
      * The birthdate of the patient.
      */
-    LocalDateTime birthdate;
+    Timestamp birthdate;
 
     /**
      * The gender of the patient.

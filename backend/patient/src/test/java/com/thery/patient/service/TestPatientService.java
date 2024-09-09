@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -37,7 +38,7 @@ public class TestPatientService {
         patient.setId(1);
         patient.setName("Dupont");
         patient.setUsername("Alice");
-        patient.setBirthdate(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()));
+        patient.setBirthdate(Timestamp.valueOf(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault())));
         patient.setGender("F");
 
         List<Patient> patients = List.of(patient);
@@ -63,7 +64,7 @@ public class TestPatientService {
         patient.setId(1);
         patient.setName("Dupont");
         patient.setUsername("Alice");
-        patient.setBirthdate(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()));
+        patient.setBirthdate(Timestamp.valueOf(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault())));
         patient.setGender("F");
 
         when(patientRepository.findById(1)).thenReturn(Optional.of(patient));
@@ -90,7 +91,7 @@ public class TestPatientService {
 
     @Test
     public void testUpdatePatient_Success() throws SavePatientException {
-        LocalDateTime birthdate = LocalDateTime.now();
+        Timestamp birthdate = Timestamp.valueOf(LocalDateTime.now());
         PatientRequest patientRequest = new PatientRequest(1, "dupont", "alice", birthdate, "F", "", "");
 
         Patient patient = new Patient();
@@ -113,7 +114,7 @@ public class TestPatientService {
 
     @Test
     public void testSavePatient_ThrowsException() {
-        PatientRequest patientRequest = new PatientRequest(1, "dupont", "alice", LocalDateTime.now(), "F", "", "");
+        PatientRequest patientRequest = new PatientRequest(1, "dupont", "alice", Timestamp.valueOf(LocalDateTime.now()), "F", "", "");
 
 
         when(patientRepository.save(any(Patient.class))).thenThrow(new RuntimeException());

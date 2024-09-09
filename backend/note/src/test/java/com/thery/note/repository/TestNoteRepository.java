@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,7 @@ public class TestNoteRepository {
     public void testNoteCreation() {
         Note note = new Note();
         note.setPatientId("12345");
-        note.setDate(LocalDateTime.now());
+        note.setDate(Timestamp.valueOf(LocalDateTime.now()));
         note.setNote("Initial note");
         note.setPatient("John Doe");
 
@@ -49,7 +50,7 @@ public class TestNoteRepository {
     public void testNoteUpdate() {
         Note note = new Note();
         note.setPatientId("12345");
-        note.setDate(LocalDateTime.now());
+        note.setDate(Timestamp.valueOf(LocalDateTime.now()));
         note.setNote("Initial note");
         note.setPatient("John Doe");
 
@@ -67,14 +68,14 @@ public class TestNoteRepository {
     public void testFindFollowNoteByPatientId() {
         Note note1 = new Note();
         note1.setPatientId("12345");
-        note1.setDate(LocalDateTime.now());
+        note1.setDate(Timestamp.valueOf(LocalDateTime.now()));
         note1.setNote("First note");
         note1.setPatient("John Doe");
         noteRepository.save(note1);
 
         Note note2 = new Note();
         note2.setPatientId("12345");
-        note2.setDate(LocalDateTime.now().plusDays(1));
+        note2.setDate(Timestamp.valueOf(LocalDateTime.now().plusDays(1)));
         note2.setNote("Second note");
         note2.setPatient("John Doe");
         noteRepository.save(note2);
@@ -90,7 +91,7 @@ public class TestNoteRepository {
     public void testDeleteNote() {
         Note note = new Note();
         note.setPatientId("12345");
-        note.setDate(LocalDateTime.now());
+        note.setDate(Timestamp.valueOf(LocalDateTime.now()));
         note.setNote("Note to be deleted");
         note.setPatient("John Doe");
         note = noteRepository.save(note);

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Objects;
@@ -48,7 +49,7 @@ class TestReportService {
         String authHeader = "Basic " + Base64.getEncoder().encodeToString((medilaboUser + ":" + medilaboPassword).getBytes());
 
         // Mock the PatientResponse and NotesResponse objects
-        PatientResponse mockPatientResponse = new PatientResponse("dupont", "alice", LocalDateTime.of(1984, 5, 20, 0, 0), "F", "", "");
+        PatientResponse mockPatientResponse = new PatientResponse("dupont", "alice", Timestamp.valueOf(LocalDateTime.of(1984, 5, 20, 0, 0)), "F", "", "");
         NotesResponse mockNotesResponse = new NotesResponse();
 
         // Mock the WebClient interactions for patient

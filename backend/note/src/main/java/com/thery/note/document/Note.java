@@ -11,7 +11,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Document(collection = "FollowNote")
@@ -26,7 +26,7 @@ public class Note {
     private String patientId;
 
     @Field("date")
-    private LocalDateTime date;
+    private Date date;
 
     @Field("note")
     private String note;
