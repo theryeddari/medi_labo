@@ -1,4 +1,6 @@
 <div class="clientele-table-container">
+  <div *ngIf="processRequest" class="process-request">{{ processRequest }}</div>
+  <h2>Notes</h2>
   <div class="scrollable-container">
     <table class="clientele-table">
       <thead>
@@ -8,10 +10,6 @@
       </tr>
       </thead>
       <tbody>
-      <!-- Afficher le message d'erreur en cas de pb -->
-      <tr *ngIf="processRequest" class="process-request">
-        <td colspan="2">{{ processRequest }}</td>
-      </tr>
       <!-- Afficher les données des clients réels -->
       <tr (click)="onClientClick(client.patientId)" *ngFor="let client of clients">
         <td>{{ client.name }}</td>

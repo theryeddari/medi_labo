@@ -1,19 +1,22 @@
 .clientele-table-container {
-  height: 350px;
   width: 600px;
+  height: 370px;
+  padding: 30px;
+  border: 4px solid #ddd;
   border-radius: 20px;
   background-color: #f9f9f9;
-  position: relative;
-  border: 4px solid #ddd;
-  padding: 10px; /* Espace autour du tableau */
-  overflow: hidden; /* Masquer tout dépassement */
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.clientele-table-container h2 {
+  text-align: center;
 }
 
 .scrollable-container {
-  height: calc(100% - 40px); /* Ajuster la hauteur pour laisser de l'espace pour les marges/padding */
-  overflow-y: auto; /* Barre de défilement ici */
-  padding-right: 10px; /* Crée un espace à droite pour éviter que la barre de défilement touche le tableau */
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 10px;
 }
 
 .scrollable-container::-webkit-scrollbar {
@@ -46,6 +49,7 @@
 }
 
 .clientele-table thead th {
+  width: 50%;
   position: sticky;
   top: 0;
   background-color: #f9f9f9; /* Arrière-plan pour le sticky */

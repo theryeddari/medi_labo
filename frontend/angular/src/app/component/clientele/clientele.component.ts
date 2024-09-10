@@ -32,7 +32,7 @@ export class ClienteleComponent implements OnInit {
   }
 
   updateEmptyRows(): void {
-    const minimumRows = 7;
+    const minimumRows = 8;
     const currentRows = this.clients.length;
     const rowsToAdd = minimumRows - currentRows;
     this.emptyRows = Array(rowsToAdd).fill(null);
