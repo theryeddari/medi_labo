@@ -23,6 +23,12 @@ services:
       - "${MYSQL_PORT_EXT}:${MYSQL_PORT_INT}"
     env_file:
       - .env
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
 
   mongodb:
     image: mongo:6.0
@@ -34,6 +40,7 @@ services:
       - "${MONGODB_PORT_EXT}:${MONGODB_PORT_INT}"
     env_file:
       - .env
+    restart: always
 
   angular:
     image: ghcr.io/${GHCR_PATH}/angular:latest
@@ -71,7 +78,8 @@ services:
     ports:
       - "${PATIENT_PORT_EXT}:${PATIENT_PORT_INT}"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     env_file:
       - .env
 
