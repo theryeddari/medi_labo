@@ -1,0 +1,44 @@
+<!-- note.component.html -->
+<div class="clientele-table-container">
+  <div *ngIf="processRequest" class="process-request">{{ processRequest }}</div>
+  <h2>Notes</h2>
+  <div class="scrollable-container">
+    <table class="clientele-table">
+      <thead>
+      <tr>
+        <th class="dateHead">Date</th>
+        <th class="noteHead">
+          <div class="note-container">
+            <div class="note-title">Note</div>
+            <div class="risk-subtitle">{{ reportPatient }}</div>
+          </div>
+        </th>
+      </thead>
+      <tbody>
+      <!-- Ligne pour saisir une nouvelle note -->
+      <tr class="textarea-container">
+        <td>{{ currentDateTextarea }}</td>
+        <td>
+            <textarea (input)="adjustHeight($event)" [(ngModel)]="newNote.text" placeholder="Enter your note here..."
+                      rows="1"
+            ></textarea>
+        </td>
+      </tr>
+      <!-- Lignes pour afficher les notes -->
+      <tr *ngFor="let note of notes">
+        <td>{{ note.date }}</td>
+        <td class="note-text">{{ note.note }}</td>
+      </tr>
+      <!-- Lignes pour afficher les notes vide -->
+      <tr *ngFor="let emptyNote of emptyRows">
+        <td>{{ emptyNote }}</td>
+        <td class="note-text">{{ emptyNote }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-buttons">
+    <button (click)="onBack()" type="button">Info Patient</button>
+    <button (click)="onSave()" type="submit">Ajouter Note</button>
+  </div>
+</div>

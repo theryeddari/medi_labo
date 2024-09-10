@@ -1,0 +1,32 @@
+<div *ngIf="patient" class="client-detail-container">
+  <div *ngIf="processRequest" class="process-request">{{ processRequest }}</div>
+  <h2>Détails du Client</h2>
+  <form #patientForm="ngForm" (ngSubmit)="onSave()">
+    <div class="client-detail-grid">
+      <!-- Première colonne : labels -->
+      <div class="client-label">
+        <label for="name">Name :</label>
+        <label for="username">Username :</label>
+        <label for="birthdate">Birthdate :</label>
+        <label for="gender">Gender :</label>
+        <label for="address">Address :</label>
+        <label for="phone">Phone :</label>
+      </div>
+
+      <!-- Deuxième colonne : inputs pour les données du patient -->
+      <div class="client-input">
+        <input [(ngModel)]="patient.name" id="name" name="name" required type="text"/>
+        <input [(ngModel)]="patient.username" id="username" name="username" required type="text"/>
+        <input [value]="patient.birthdate" id="birthdate" readonly type="text"/>
+        <input [(ngModel)]="patient.gender" id="gender" name="gender" required type="text"/>
+        <input [(ngModel)]="patient.address" id="address" name="address" type="text"/>
+        <input [(ngModel)]="patient.phone" id="phone" name="phone" type="text"/>
+      </div>
+    </div>
+    <div class="form-buttons">
+      <button (click)="onBack()" type="button">Retour</button>
+      <button (click)="onSave()" type="submit">Enregistrer</button>
+      <button (click)="onViewNotes()" type="button">Voir Notes</button>
+    </div>
+  </form>
+</div>

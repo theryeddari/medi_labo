@@ -1,0 +1,170 @@
+.clientele-table-container {
+  width: 600px;
+  height: 370px;
+  padding: 30px;
+  border: 4px solid #ddd;
+  border-radius: 20px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+}
+
+.clientele-table-container h2 {
+  text-align: center;
+}
+
+.scrollable-container {
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.scrollable-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+  border-radius: 6px;
+  background-color: #f1f1f1;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background-color: rgba(104, 210, 223, 0.74);
+  border-radius: 6px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(54, 186, 204);
+}
+
+.clientele-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.dateHead {
+  width: 180px;
+}
+
+.noteHead {
+
+}
+
+.textarea-container td {
+  height: 100%;
+  border: 1px solid #ddd;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.textarea-container td:first-child {
+  text-align: center;
+}
+
+.textarea-container textarea {
+  /*height defined by note.components.ts adjustHeight(event: Event) function*/
+  font-size: large;
+  resize: none;
+  overflow-y: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  line-height: 1.5;
+  min-height: 35px;
+}
+
+.clientele-table td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  height: 20px;
+}
+
+.clientele-table th {
+  border: 1px solid #ddd;
+}
+
+.clientele-table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f9f9f9;
+  z-index: 1;
+}
+
+.clientele-table tbody tr:hover {
+  background-color: rgba(104, 210, 223, 0.74);
+}
+
+.note-text {
+  white-space: pre-wrap; /* Preserve whitespace and line breaks */
+  word-break: break-word; /* Ensure long words are broken */
+}
+
+.form-buttons {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.form-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #36bacc;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.form-buttons button:hover {
+  background-color: #2f9caa;
+}
+
+/* Container for the note title and risk subtitle */
+.note-container {
+  display: flex;
+  height: 40px;
+}
+
+/* Style for the note title */
+.note-title {
+  flex: 3;
+  border-right: 1px solid #ddd; /* Séparation entre Note et Risk */
+  display: flex; /* Apply flex to the content within this cell */
+  align-items: center; /* Centre verticalement le contenu */
+  justify-content: center; /* Centre horizontalement le contenu */
+}
+
+/* Style for the risk subtitle */
+.risk-subtitle {
+  /*background color defined by note.components.ts updateBackgroundColor() function*/
+  flex: 2;
+  height: 100%;
+  text-align: center;
+  display: flex; /* Apply flex to the content within this cell */
+  align-items: center; /* Centre verticalement le contenu */
+  justify-content: center; /* Centre horizontalement le contenu */
+}
+
+.form-buttons {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.form-buttons button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #36bacc;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.form-buttons button:hover {
+  background-color: #36bacc;
+}
+
+.process-request {
+  text-align: center;
+  color: #2f9caa;
+}
