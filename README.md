@@ -37,9 +37,11 @@ La branche Main est utilisée comme branche de présentation par défaut.
 
 Pour toute utilisation du code, ajout ou modification, veuillez créer une nouvelle branche à partir de la branche Master, disponible dans le projet après avoir cloné le dépôt.
 
-Vous pouvez soit télécharger et installer chaque module manuellement, puis les synchroniser avec composeDocker, soit laisser composeDocker récupérer les modules pour vous depuis le registre Docker.
+Vous devez télécharger le code source de la branch master. Ensuite, utilisez Docker Compose pour construire et exécuter les services à partir de ce code source.
 
 Un modèle de fichier .env est fourni dans la branche Main. Veuillez le compléter avec les variables requises. Assurez-vous de placer ce fichier à la racine du projet
+
+Si vous le souhaitez vous pouvez modifier les scripts d'initialisation des données des bases de données et présent dans le dossier init_scripts.
 
 ## Green Code
 
@@ -47,8 +49,6 @@ Le Green Code est une approche de développement visant à réduire l'empreinte 
 
 Pour plus de détails sur les actions spécifiques et les concepts abordés, veuillez consulter la section dédiée dans notre Documentation.
 
-## License
-Ce projet est sous licence MIT. Voir le fichier LICENSE pour plus de détails.
 
 ### Contact
 Pour toute question, contactez moi.
