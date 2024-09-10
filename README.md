@@ -6,13 +6,14 @@
 
 Vous trouverez ici le document [Document de présentation MedicalLabo ](https://github.com/theryeddari/medi_labo/blob/ccb95cd4bf99dc5f096c2c5a1fb6a63a70b0b8c7/Documentation%20technique%20et%20fonctionnelle%20Medical%20Labo.pdf)
 
-Le document contient :
+Le document contient en autres :
 
 - **Présentation du Projet** : Vue d'ensemble et objectifs.
 - **Fonctionnalités** : Description des fonctionnalités principales.
+- **Les vues et user stories** : attente graphique sommaire et les actions de l'utilisateur 
 - **Architecture** : Schémas et description technique du système.
-- **Configuration** : Instructions pour le déploiement et la configuration.
-- **Tests** : Stratégies et outils de test.
+- **Configuration** : la configuration des diférents modules.
+- **Tests et coverage** : Stratégies et outils de test avec les rapports.
 - **Sécurité** : Mesures de sécurité et gestion des données.
 - **Green Code** :Une section sur le green Code concernant les améliorations à apporté et globalement une reflexion sur cette pratique.
 
@@ -23,21 +24,29 @@ Le document contient :
 - **Java** : 21
 - **Spring Boot** : 3.2.2
 - **JUnit** : 5
-- **Docker**
+- **Docker** 
 - **Log4j2**
 - **Jacoco** : pour la couverture de code
 - **Surefire** : pour les rapports de tests
-
+- **MangoDb**
+- **MySQL**
+  
 ## Installation
 
-La branch Main est utilisé comme branch de présentation par défaut.
+La branche Main est utilisée comme branche de présentation par défaut.
 
-Pour toute utilisation du code, ajout ou modification veuillez creer une nouvelle branch à partir de la branch Master qui est diponible dans le projet aprés avoir cloner le repro.
+Pour toute utilisation du code, ajout ou modification, veuillez créer une nouvelle branche à partir de la branche Master, disponible dans le projet après avoir cloné le dépôt.
+
+Vous pouvez soit télécharger et installer chaque module manuellement, puis les synchroniser avec composeDocker, soit laisser composeDocker récupérer les modules pour vous depuis le registre Docker.
+
+Un modèle de fichier .env est fourni dans la branche Main. Veuillez le compléter avec les variables requises. Assurez-vous de placer ce fichier à la racine du projet
 
 ## Green Code
+
 Le Green Code est une approche de développement visant à réduire l'empreinte écologique des applications en optimisant les ressources et en minimisant l'impact environnemental tout au long de leur cycle de vie. Dans ce projet, nous pouvons mettre en place diverses actions pour rendre notre code plus écoresponsable, notamment l'optimisation des requêtes, l'efficacité du code, la gestion des ressources serveurs, et l'utilisation d'une infrastructure cloud durable.
 
 Pour plus de détails sur les actions spécifiques et les concepts abordés, veuillez consulter la section dédiée dans notre Documentation.
+
 ## License
 Ce projet est sous licence MIT. Voir le fichier LICENSE pour plus de détails.
 
