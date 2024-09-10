@@ -1,5 +1,6 @@
 <div class="login-container">
   <h2>Login</h2>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
   <form #loginForm="ngForm" (ngSubmit)="onSubmit()" id=form>
     <div class="form-group">
       <label for="username">Username:</label>
@@ -7,7 +8,6 @@
       <div *ngIf="passwordData.touched && usernameData.errors?.['required']" class="error-message">Username is
         required.
       </div>
-      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     </div>
 
     <div class="form-group">
@@ -16,7 +16,6 @@
       <div *ngIf="passwordData.touched && passwordData.errors?.['required']" class="error-message">Password is
         required.
       </div>
-      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     </div>
 
     <button [disabled]="loginForm.invalid" type="submit">Login</button>

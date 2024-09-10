@@ -1,5 +1,6 @@
 package com.thery.patient.controller;
 
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,14 @@ public class TestPatientControllerAdvice {
         ResponseEntity<String> response = advice.handleSavePatientException(ex);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    public void testHandleMethodArgumentNotValidException() {
+        ConstraintViolationException ex = new ConstraintViolationException(null);
+
+        ResponseEntity<String> response = advice.handleValidationExceptions(ex);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 }

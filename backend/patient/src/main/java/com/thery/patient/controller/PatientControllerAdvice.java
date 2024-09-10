@@ -1,5 +1,6 @@
 package com.thery.patient.controller;
 
+import jakarta.validation.ConstraintViolationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,21 @@ public class PatientControllerAdvice {
     public ResponseEntity<String> handleSavePatientException(SavePatientException ex) {
         logger.error("{}", ex.getMessage());
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Handles exceptions caused by invalid method arguments (e.g., validation errors).
+     * Intercepts the MethodArgumentNotValidException and returns a ResponseEntity
+     * with a 400 Bad Request status without including any message.
+     *
+     * @param ex the exception raised when method argument validation fails
+     * @return a ResponseEntity with a 400 Bad Request status
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<String> handleValidationExceptions(ConstraintViolationException ex) {
+        logger.error("{}", ex.getMessage());
+        // Return a ResponseEntity with HTTP 400 (Bad Request) and no body
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 }

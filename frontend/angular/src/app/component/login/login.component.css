@@ -13,13 +13,12 @@
   align-items: center;
   justify-content: space-evenly;
   height: 100%;
-  margin: 20px;
+  margin: 0 20px 20px 20px;
 }
 
 
 h2 {
   text-align: center;
-  margin-bottom: 20px;
 }
 
 .form-group {
@@ -39,6 +38,7 @@ input[type="text"], input[type="password"] {
 }
 
 .error-message {
+  text-align: center;
   color: red;
   font-size: 0.9em;
 }

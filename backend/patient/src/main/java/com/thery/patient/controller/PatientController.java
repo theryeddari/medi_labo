@@ -4,6 +4,7 @@ import com.thery.patient.dto.ClienteleResponse;
 import com.thery.patient.dto.PatientRequest;
 import com.thery.patient.dto.PatientResponse;
 import com.thery.patient.service.PatientService;
+import jakarta.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ public class PatientController {
      */
     @PostMapping("/patient")
     @ResponseStatus(HttpStatus.OK)
-    public PatientResponse updatePatient(@RequestBody PatientRequest patientRequest) throws SavePatientException {
+    public PatientResponse updatePatient(@Valid @RequestBody PatientRequest patientRequest) throws SavePatientException {
         logger.info("save patient profiles");
         PatientResponse patientResponse = patientService.savePatient(patientRequest);
         logger.info("clientele patient saved successfully");

@@ -1,7 +1,8 @@
 package com.thery.patient.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,7 +34,7 @@ public class Patient {
      * This field cannot be null and has a maximum length of 45 characters.
      */
     @Size(max = 45)
-    @NotNull
+    @NotBlank
     @Column(name = "name", nullable = false, length = 45)
     private String name;
 
@@ -42,7 +43,7 @@ public class Patient {
      * This field cannot be null and has a maximum length of 45 characters.
      */
     @Size(max = 45)
-    @NotNull
+    @NotBlank
     @Column(name = "username", nullable = false, length = 45)
     private String username;
 
@@ -50,7 +51,7 @@ public class Patient {
      * The birthdate of the patient.
      * This field cannot be null.
      */
-    @NotNull
+    @PastOrPresent
     @Column(name = "birthdate", nullable = false)
     private Timestamp birthdate;
 
@@ -59,7 +60,7 @@ public class Patient {
      * This field cannot be null and has a maximum length of 45 characters.
      */
     @Size(max = 45)
-    @NotNull
+    @NotBlank
     @Column(name = "gender", nullable = false, length = 45)
     private String gender;
 
