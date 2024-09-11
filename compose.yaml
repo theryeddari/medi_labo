@@ -40,7 +40,6 @@ services:
       - "${MONGODB_PORT_EXT}:${MONGODB_PORT_INT}"
     env_file:
       - .env
-    restart: always
 
   angular:
     image: ghcr.io/${GHCR_PATH}/angular:latest
